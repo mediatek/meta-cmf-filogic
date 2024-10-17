@@ -35,5 +35,6 @@ DISTRO_FEATURES_append = " filogic"
 #DISTRO_FEATURES_append = " easymesh-controller"
 #DISTRO_FEATURES_append = " emmc"
 #DISTRO_FEATURES_append = " samba"
+DISTRO_FEATURES_append = " three_gmac"
 HOSTTOOLS += " python"
 
