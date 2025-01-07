@@ -6,7 +6,7 @@ SYSTEMD_TOOLS = "systemd-analyze systemd-bootchart"
 # systemd-bootchart doesn't currently build with musl libc
 SYSTEMD_TOOLS_remove_libc-musl = "systemd-bootchart"
 
-DEPENDS += "cryptsetup-native"
+DEPENDS += "cryptsetup-native fit-rootfs-hash-tool-native "
 
 IMAGE_INSTALL += " \
     ${SYSTEMD_TOOLS} \
@@ -95,7 +95,7 @@ do_filogic_gen_image(){
 
             cp ${DEPLOY_DIR_IMAGE}/fitImage ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}/kernel
             cp ${IMGDEPLOYDIR}/${PN}-${MACHINE}.squashfs-xz ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}/root
-
+            fit-rootfs-hash-tool ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}/kernel ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}/root
             cd ${IMGDEPLOYDIR}
             tar cvf ${PN}-${MACHINE}-sysupgrade.bin sysupgrade-${PN}-${MACHINE}
             mv ${PN}-${MACHINE}-sysupgrade.bin ${DEPLOY_DIR_IMAGE}/
