@@ -8,6 +8,37 @@
 
 ## Latest Release Version
 
+#### Filogic 880/860 WiFi7 MLO MP Release (20250110)
+
+##### External Release
+
+```
+#Get  latest RDKB core release  : https://wiki.rdkcentral.com/display/CMF/RDK-B+Code+Releases
+
+kirkstone : repo init -u https://code.rdkcentral.com/r/rdkcmf/manifests  -b rdkb-2024q4-kirkstone -m rdkb-nosrc.xml
+
+repo sync -j `nproc` --no-clone-bundle --no-tags
+
+#Get filogic BSP meta layer
+git clone https://git01.mediatek.com/filogic/rdk-b/meta-filogic
+cd meta-filogic; git checkout 4d1a2a549791f1d57c83d8be89927aed647b62ea; cd -;
+
+#Get filogic Adapter cmf layer
+git clone https://git01.mediatek.com/filogic/rdk-b/meta-cmf-filogic
+cd meta-cmf-filogic; git checkout 39973f0b37b6afef2be10640bedd9efb359530df; cd -;
+
+#Choose one platform to build
+#Filogic880
+MACHINE=filogic880 source meta-cmf-filogic/setup-environment-release && bitbake rdk-generic-broadband-image
+
+#Bpi-r4
+MACHINE=filogic880-bpi-r4 source meta-cmf-filogic/setup-environment-release && bitbake rdk-generic-broadband-image
+```
+
+##### WiFi Package Version
+
+refer to https://git01.mediatek.com/plugins/gitiles/openwrt/feeds/mtk-openwrt-feeds/+/refs/heads/master/autobuild/autobuild_5.4_mac80211_release/Readme.md#wi_fi-7-latest-release-version-filogic-880_860-wifi7-kernel5_4-mp4_0-release-wifi-package-version
+
 #### Filogic 880/860 WiFi7 MLO Beta Release (20240826)
 
 ##### External Release
@@ -21,7 +52,7 @@ repo sync -j `nproc` --no-clone-bundle --no-tags
 
 #Get filogic BSP meta layer
 git clone https://git01.mediatek.com/filogic/rdk-b/meta-filogic
-cd meta-filogic; git checkout e112e718012bdedf145fe8cd5cb696624538adf0; cd -;
+cd meta-filogic; git checkout f51b4c5f632ab59eac9cecf69fabc98678f29218; cd -;
 
 #Get filogic Adapter cmf layer
 git clone https://git01.mediatek.com/filogic/rdk-b/meta-cmf-filogic
