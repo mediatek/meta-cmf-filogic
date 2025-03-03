@@ -38,7 +38,8 @@ IMAGE_INSTALL += " \
     strongswan \
     libpcap \
     tcpdump \
-    perf \
+    ${@bb.utils.contains('DISTRO_FEATURES','kernel6-6','linux-firmware-mt7988 fitblk','mediatek-eth-firmware',d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES','kernel6-6','','perf',d)} \
     ${@bb.utils.contains('DISTRO_FEATURES','mt76','packagegroup-filogic-mt76','',d)} \
     ${@bb.utils.contains('DISTRO_FEATURES','logan','packagegroup-filogic-logan','',d)} \
     ${@bb.utils.contains('DISTRO_FEATURES','mtk_easymesh','packagegroup-filogic-mtk-easymesh','',d)} \
@@ -52,7 +53,7 @@ IMAGE_INSTALL += " \
     "
 #IMAGE_INSTALL += " opensync openvswitch mesh-agent e2fsprogs "
 
-IMAGE_INSTALL_append += " marvell-eth-firmware mediatek-eth-firmware airoha-eth-firmware "
+IMAGE_INSTALL_append += " marvell-eth-firmware  airoha-eth-firmware "
 
 
 BB_HASH_IGNORE_MISMATCH = "1"
@@ -87,34 +88,36 @@ ROOTFS_POSTPROCESS_COMMAND_append = "remove_unused_file; "
 do_filogic_gen_image(){
 	if ${@bb.utils.contains('DISTRO_FEATURES','kernel_in_ubi','true','false',d)}; then
         # create sysupgrade image align to openwrt
+         if ${@bb.utils.contains('DISTRO_FEATURES','kernel6-6','true','false',d)}; then
+                mv ${DEPLOY_DIR_IMAGE}/fitImage-filogic ${DEPLOY_DIR_IMAGE}/${PN}-${MACHINE}-sysupgrade.itb
+         else
+                rm -rf ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}
+                rm -rf ${IMGDEPLOYDIR}/${PN}-${MACHINE}-sysupgrade.bin
 
-            rm -rf ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}
-            rm -rf ${IMGDEPLOYDIR}/${PN}-${MACHINE}-sysupgrade.bin
+                mkdir ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}
 
-            mkdir ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}
+                cp ${DEPLOY_DIR_IMAGE}/fitImage ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}/kernel
+                cp ${IMGDEPLOYDIR}/${PN}-${MACHINE}.squashfs-xz ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}/root
+                fit-rootfs-hash-tool ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}/kernel ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}/root
+                cd ${IMGDEPLOYDIR}
+                tar cvf ${PN}-${MACHINE}-sysupgrade.bin sysupgrade-${PN}-${MACHINE}
+                mv ${PN}-${MACHINE}-sysupgrade.bin ${DEPLOY_DIR_IMAGE}/
+            if ${@bb.utils.contains('DISTRO_FEATURES','secure_boot','true','false',d)}; then
 
-            cp ${DEPLOY_DIR_IMAGE}/fitImage ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}/kernel
-            cp ${IMGDEPLOYDIR}/${PN}-${MACHINE}.squashfs-xz ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}/root
-            fit-rootfs-hash-tool ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}/kernel ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}/root
-            cd ${IMGDEPLOYDIR}
-            tar cvf ${PN}-${MACHINE}-sysupgrade.bin sysupgrade-${PN}-${MACHINE}
-            mv ${PN}-${MACHINE}-sysupgrade.bin ${DEPLOY_DIR_IMAGE}/
-            
-        if ${@bb.utils.contains('DISTRO_FEATURES','secure_boot','true','false',d)}; then
+                rm -rf ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}-sb
+                rm -rf ${IMGDEPLOYDIR}/${PN}-${MACHINE}-sb-sysupgrade.bin
 
-            rm -rf ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}-sb
-            rm -rf ${IMGDEPLOYDIR}/${PN}-${MACHINE}-sb-sysupgrade.bin
+                mkdir ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}-sb
 
-            mkdir ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}-sb
+                cp ${DEPLOY_DIR_IMAGE}/fitImage-sb ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}-sb/kernel
+                cp ${IMGDEPLOYDIR}/${PN}-${MACHINE}.squashfs-xz ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}-sb/root
+                fit-rootfs-hash-tool ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}-sb/kernel ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}-sb/root
 
-            cp ${DEPLOY_DIR_IMAGE}/fitImage-sb ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}-sb/kernel
-            cp ${IMGDEPLOYDIR}/${PN}-${MACHINE}.squashfs-xz ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}-sb/root
-            fit-rootfs-hash-tool ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}-sb/kernel ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}-sb/root
-
-            cd ${IMGDEPLOYDIR}
-            tar cvf ${PN}-${MACHINE}-sb-sysupgrade.bin sysupgrade-${PN}-${MACHINE}-sb
-            mv ${PN}-${MACHINE}-sb-sysupgrade.bin ${DEPLOY_DIR_IMAGE}/
-        fi      
+                cd ${IMGDEPLOYDIR}
+                tar cvf ${PN}-${MACHINE}-sb-sysupgrade.bin sysupgrade-${PN}-${MACHINE}-sb
+                mv ${PN}-${MACHINE}-sb-sysupgrade.bin ${DEPLOY_DIR_IMAGE}/
+            fi
+        fi
     fi
 
 }
