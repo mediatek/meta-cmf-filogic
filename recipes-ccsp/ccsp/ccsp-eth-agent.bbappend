@@ -4,7 +4,6 @@ FILESEXTRAPATHS_append := "${THISDIR}/files:"
 
 SRC_URI_append += " \
     file://Fix-ccsp-eth-agent-build-error.patch;apply=no \
-    ${@bb.utils.contains('DISTRO_FEATURES','lan0_as_wan','file://support_lan0_as_wan.patch','',d)} \
 "
 
 do_filogic_patches() {
