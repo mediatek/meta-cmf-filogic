@@ -1,6 +1,6 @@
-EXTRA_OECONF_append = " --enable-ert --enable-platform"
+EXTRA_OECONF:append = " --enable-ert --enable-platform"
 
-SRC_URI_append= " \
+SRC_URI:append= " \
     ${@bb.utils.contains('DISTRO_FEATURES','2022q3_support','${CMF_GIT_ROOT}/rdkb/devices/turris/tdkb;protocol=${CMF_GIT_PROTOCOL};branch=${CMF_GIT_BRANCH};destsuffix=git/platform/turris;name=tdkbturris', \
     '${CMF_GIT_ROOT}/rdkb/devices/raspberrypi/tdkb;protocol=${CMF_GIT_PROTOCOL};branch=${CMF_GIT_BRANCH};destsuffix=git/platform/raspberrypi;name=tdkbraspberrypi',d)}"
 
@@ -9,7 +9,7 @@ SRCREV_tdkbraspberrypi = "${AUTOREV}"
 do_fetch[vardeps] += "${@bb.utils.contains('DISTRO_FEATURES','2022q3_support','SRCREV_tdkbturris','SRCREV_tdkbraspberrypi',d)}"
 SRCREV_FORMAT = "${@bb.utils.contains('DISTRO_FEATURES','2022q3_support','tdk_tdkbturris','tdk_tdkbraspberrypi',d)}"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
     file://0001-Fix-GetApAssociatedDeviceRxStatsResult-and-GetApAsso.patch;apply=no \
@@ -36,7 +36,7 @@ do_mtk_patches() {
 }
 addtask mtk_patches after do_unpack before do_compile
 
-do_install_append () {
+do_install:append () {
     install -d ${D}${tdkdir}
     install -d ${D}/etc
     if ${@bb.utils.contains( 'DISTRO_FEATURES', '2022q3_support', 'true', 'false', d)}; then
@@ -50,9 +50,9 @@ do_install_append () {
     install -p -m 755 ${S}/Set_properties_logan.sh ${D}${tdkdir}
 }
 
-FILES_${PN} += "${prefix}/ccsp/"
-FILES_${PN} += "/etc/*"
-FILES_${PN} += "${tdkdir}/*"
+FILES:${PN} += "${prefix}/ccsp/"
+FILES:${PN} += "/etc/*"
+FILES:${PN} += "${tdkdir}/*"
 
-CXXFLAGS_append = " -DWIFI_HAL_VERSION_3 "
+CXXFLAGS:append = " -DWIFI_HAL_VERSION_3 "
 

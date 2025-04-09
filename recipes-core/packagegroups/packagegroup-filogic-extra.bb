@@ -10,7 +10,7 @@ PACKAGES = " \
 	  packagegroup-filogic-extra \
 	"
 
-RDEPENDS_packagegroup-filogic-extra = " \
+RDEPENDS:packagegroup-filogic-extra = " \
     bzip2 \
     nmap \
     devmem2 \

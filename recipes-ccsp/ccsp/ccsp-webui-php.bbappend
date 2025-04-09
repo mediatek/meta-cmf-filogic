@@ -1,15 +1,15 @@
 require ccsp_common_filogic.inc
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 EXTRA_OECONF += "PHP_RPATH=no"
 
-SRC_URI_append = " \
+SRC_URI:append = " \
 	 file://CcspWebUI.sh \
 	 file://CcspWebUI.service \
 "
 
-do_install_append () {
+do_install:append () {
     install -d ${D}${sysconfdir}
     install -m 755 ${S}/../Styles/xb3/config/php.ini ${D}${sysconfdir}
 
@@ -42,7 +42,7 @@ do_install_append () {
         sed -e '/jProgress/ s/^/\/\//' -i ${D}/usr/www/wan_network.php
         sed -i "s/\$clients_RSSI\[strtoupper(\$Host\[\"\$i\"\]\['PhysAddress'\])\]/\$Host\[\$i\]\['X_CISCO_COM_RSSI'\]/g" ${D}/usr/www/connected_devices_computers.php
 }
-do_install_append_morty () {
+do_install:append_morty () {
     #Locate svg file to load
     echo  "<?php \n\$files = glob('/run/log/bootchart-[0-9]*?-[0-9]*?.svg');\necho file_get_contents(\$files[0]);\n?>" > ${D}/usr/www/bootchart.php
 
@@ -50,6 +50,6 @@ do_install_append_morty () {
    sed -i "/password_change.php/a echo '<li class="nav-bootchart"><a role="menuitem"  href="bootchart.php">Bootchart</a></li>';" ${D}/usr/www/includes/nav.php
 }
 
-SYSTEMD_SERVICE_${PN} += "CcspWebUI.service"
-FILES_${PN} += "${sysconfdir}/php.ini ${systemd_unitdir}/system/CcspWebUI.service"
+SYSTEMD_SERVICE:${PN} += "CcspWebUI.service"
+FILES:${PN} += "${sysconfdir}/php.ini ${systemd_unitdir}/system/CcspWebUI.service"
 

@@ -1,11 +1,11 @@
-SRC_URI_append = " \
+SRC_URI:append = " \
     ${CMF_GIT_ROOT}/rdkb/devices/raspberrypi/sysint;module=.;protocol=${CMF_GIT_PROTOCOL};branch=${CMF_GIT_BRANCH};destsuffix=git/devicerpi;name=sysintdevicerpi \
 "
 SRCREV_sysintdevicerpi = "${AUTOREV}"
 SRCREV_FORMAT = "sysintgeneric_sysintdevicerpi"
 
 
-do_install_append() {
+do_install:append() {
     install -d ${D}${systemd_unitdir}/system
     install -m 0755 ${S}/device/lib/rdk/* ${D}${base_libdir}/rdk
     install -m 0755 ${S}/rfc.service ${D}${base_libdir}/rdk
@@ -101,10 +101,10 @@ do_install_append() {
     fi
 }
 
-do_install_append_broadband-dev() {
+do_install:append_broadband-dev() {
 install -m 0755 ${S}/devicerpi/lib/rdk/build_component_script.sh ${D}${base_libdir}/rdk
 }
-do_install_append_bootbroadband() {
+do_install:append_bootbroadband() {
     install -m 0755 ${S}/devicerpi/lib/rdk/flash.sh ${D}${base_libdir}/rdk
     install -m 0755 ${S}/devicerpi/lib/rdk/vm-to-image.sh ${D}${base_libdir}/rdk
     install -m 0755 ${S}/devicerpi/lib/rdk/curl-upload.sh ${D}${base_libdir}/rdk
@@ -113,9 +113,9 @@ do_install_append_bootbroadband() {
     install -m 0755 ${S}/devicerpi/systemd_units/monitor-upload.service ${D}${systemd_unitdir}/system
 }
 
-SYSTEMD_SERVICE_${PN}_append = " dropbear.service disable_systemd_restart_param.service ntpd.service swupdate.service "
-SYSTEMD_SERVICE_${PN}_remove_broadband = "dropbear.service"
-SYSTEMD_SERVICE_${PN}_append_bootbroadband += " boot-time-upload.service monitor-upload.service"
+SYSTEMD_SERVICE:${PN}:append = " dropbear.service disable_systemd_restart_param.service ntpd.service swupdate.service "
+SYSTEMD_SERVICE:${PN}:remove_broadband = "dropbear.service"
+SYSTEMD_SERVICE:${PN}:append_bootbroadband += " boot-time-upload.service monitor-upload.service"
 
-FILES_${PN}_append = " ${systemd_unitdir}/system/* /fss/gw/rdklogger/* /usr/ccsp/tad/*"
-FILES_${PN}_append_bootbroadband = " ${systemd_unitdir}/system/*"
+FILES:${PN}:append = " ${systemd_unitdir}/system/* /fss/gw/rdklogger/* /usr/ccsp/tad/*"
+FILES:${PN}:append_bootbroadband = " ${systemd_unitdir}/system/*"

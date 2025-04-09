@@ -1,6 +1,6 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
-SRC_URI_append = " \
+SRC_URI:append = " \
     file://001-fix-64bit-build-error.patch;apply=no \
     file://002-change-scan-interface-name-prefix.patch;apply=no \
 "
@@ -14,12 +14,12 @@ do_filogic_patches() {
 }
 addtask filogic_patches after do_unpack before do_configure
 
-do_install_append () {
+do_install:append () {
     install -d ${D}${systemd_unitdir}/system
     install -D -m 0644 ${S}/scripts/RdkEasyMeshController.service ${D}${systemd_unitdir}/system/RdkEasyMeshController.service
 }
 
-SYSTEMD_SERVICE_${PN} += "RdkEasyMeshController.service"
-FILES_${PN}_append += "${systemd_unitdir}/system/RdkEasyMeshController.service"
+SYSTEMD_SERVICE:${PN} += "RdkEasyMeshController.service"
+FILES:${PN}:append += "${systemd_unitdir}/system/RdkEasyMeshController.service"
 
 

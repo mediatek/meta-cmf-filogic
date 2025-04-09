@@ -1,29 +1,29 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 require ccsp_common_filogic.inc
 
-SRC_URI_append += " file://filogic-factoryReset.patch"
+SRC_URI:append += " file://filogic-factoryReset.patch"
 
-DEPENDS_append = " utopia curl "
+DEPENDS:append = " utopia curl "
 
-CFLAGS_append = " \
+CFLAGS:append = " \
     -I=${includedir}/utctx \
     -I=${includedir}/utapi \
 "
-LDFLAGS_append =" \
+LDFLAGS:append =" \
     -lsyscfg \
     -lbreakpadwrapper \
 "
 
-LDFLAGS_remove = " \
+LDFLAGS:remove = " \
     -lmoca_mgnt \
 "
 
-CFLAGS_remove = "-Werror"
+CFLAGS:remove = "-Werror"
 
-EXTRA_OECONF_append_dunfell  = " --with-ccsp-arch=arm"
+EXTRA_OECONF:append_dunfell  = " --with-ccsp-arch=arm"
 
-do_configure_prepend () {
+do_configure:prepend () {
    #for WanManager support
    #Below lines of code needs to be removed , once (Device.DHCPv4.Client.{i} and Device.DhCPv6,CLient.{i}) the mentioned parameters are permanently removed from TR181-USGv2.XML
     DISTRO_WAN_ENABLED="${@bb.utils.contains('DISTRO_FEATURES','rdkb_wan_manager','true','false',d)}"
@@ -47,7 +47,7 @@ fi
 fi
 }
 
-do_install_append(){
+do_install:append(){
     # Config files and scripts
     install -m 644 ${S}/config-arm/CcspDmLib.cfg ${D}/usr/ccsp/pam/CcspDmLib.cfg
     install -m 644 ${S}/config-arm/CcspPam.cfg -t ${D}/usr/ccsp/pam
@@ -127,10 +127,10 @@ do_install_append(){
 }
 
 
-FILES_${PN}-ccsp += " \
+FILES:${PN}-ccsp += " \
     ${prefix}/ccsp/pam/CcspPandMSsp \
     /fss/gw/usr/sbin/ip \
     ${prefix}/ccsp/pam/TR181-USGv2.XML \
 "
 
-RDEPENDS_${PN}-ccsp_append_dunfell = " bash"
+RDEPENDS:${PN}-ccsp:append_dunfell = " bash"

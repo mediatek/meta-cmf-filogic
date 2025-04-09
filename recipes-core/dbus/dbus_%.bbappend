@@ -1,4 +1,4 @@
-do_install_append_lxcbrc () {
+do_install:append_lxcbrc () {
 
 	sed -i '/user>messagebus/c\<user>dbus</user>'  ${D}/usr/share/dbus-1/system.conf
 	sed -i '/allow user/c\<deny user="*"/>\n<allow user="ccspcr"/>\n<allow user="psm"/>\n<allow user="pandm"/>\n<allow user="ccspwifi"/>\n<allow user="ccsplmlite"/>\n<allow user="root"/>' ${D}/usr/share/dbus-1/system.conf
@@ -14,7 +14,7 @@ do_install_append_lxcbrc () {
 	sed -i "/ExecReload=/c\ExecReload=/container/DBUS/launcher/dbus.sh reload"  ${D}${systemd_system_unitdir}/dbus.service
 }
 
-do_install_append_aarch64_broadband () {
+do_install:append:aarch64_broadband () {
           # Removing dbus service in 64bit arch alone
           rm  ${D}${systemd_system_unitdir}/dbus.service   
 }

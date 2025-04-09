@@ -1,8 +1,8 @@
 require ccsp_common_filogic.inc
 
-FILESEXTRAPATHS_append := "${THISDIR}/files:"
+FILESEXTRAPATHS:append := "${THISDIR}/files:"
 
-SRC_URI_append += " \
+SRC_URI:append += " \
     file://Fix-ccsp-eth-agent-build-error.patch;apply=no \
 "
 
@@ -16,13 +16,13 @@ do_filogic_patches() {
 }
 addtask filogic_patches after do_unpack before do_configure
 
-CFLAGS_aarch64_append = " -Werror=format-truncation=1 "
-CFLAGS_aarch64_append = " -Wno-format-truncation -Wno-implicit-function-declaration -Wno-error "
+CFLAGS:aarch64:append = " -Werror=format-truncation=1 "
+CFLAGS:aarch64:append = " -Wno-format-truncation -Wno-implicit-function-declaration -Wno-error "
 
-EXTRA_OECONF_append_dunfell  = " --with-ccsp-arch=arm"
+EXTRA_OECONF:append_dunfell  = " --with-ccsp-arch=arm"
 
-LDFLAGS_append =" \
+LDFLAGS:append =" \
     -lsyscfg \
     -lbreakpadwrapper \
 "
-LDFLAGS_append_dunfell = " -lpthread -lsafec-3.5.1"
+LDFLAGS:append_dunfell = " -lpthread -lsafec-3.5.1"

@@ -10,7 +10,7 @@ PACKAGES = " \
 	  packagegroup-filogic-mtk-easymesh \
 	"
 
-RDEPENDS_packagegroup-filogic-mtk-easymesh = " \
+RDEPENDS:packagegroup-filogic-mtk-easymesh = " \
     1905daemon \
     datconf \
     libmapd \

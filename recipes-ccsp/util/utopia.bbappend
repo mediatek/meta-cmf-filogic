@@ -1,20 +1,20 @@
 require recipes-ccsp/ccsp/ccsp_common_filogic.inc
 
-DEPENDS_append = " kernel-autoconf utopia-headers libsyswrapper telemetry"
+DEPENDS:append = " kernel-autoconf utopia-headers libsyswrapper telemetry"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
-EXTRA_OECONF_append_dunfell  = " --with-ccsp-arch=arm"
-EXTRA_OECONF_remove  = "--with-ccsp-platform=bcm"
+EXTRA_OECONF:append_dunfell  = " --with-ccsp-arch=arm"
+EXTRA_OECONF:remove  = "--with-ccsp-platform=bcm"
 
-SRC_URI_append = " \
+SRC_URI:append = " \
     file://0001-fix-lan-handler-for-filogic.patch;apply=no \
     file://0003-remove-autoconf.patch;apply=no \
     file://system_defaults \
     file://0004-enable-sshd-by-default-at-bootup.patch;apply=no \
     file://service_bridge_mtk.sh \
 "
-SRC_URI_append = "file://0001-Work-around-for-brlan0-issue.patch;apply=no"
+SRC_URI:append = "file://0001-Work-around-for-brlan0-issue.patch;apply=no"
 
 SRC_URI += "file://posix-gwprovapp.patch;apply=no"
 #This patch will add dummy swctl api which is originally given by brcm for XB3.
@@ -22,12 +22,12 @@ SRC_URI += "file://0002-fix-swctl-missing-api.patch;apply=no"
 SRC_URI += "file://firewall-secure-onboard.patch;apply=no"
 SRC_URI += "file://dhcp_script.sh"
 
-LDFLAGS_append = " \
+LDFLAGS:append = " \
     -lsecure_wrapper \
 "
 
-CFLAGS_append = " -Wno-format-extra-args -Wno-error "
-CFLAGS_append += "${@bb.utils.contains('DISTRO_FEATURES', 'rdkb_wan_manager', ' -D_WAN_MANAGER_ENABLED_', '', d)}"
+CFLAGS:append = " -Wno-format-extra-args -Wno-error "
+CFLAGS:append += "${@bb.utils.contains('DISTRO_FEATURES', 'rdkb_wan_manager', ' -D_WAN_MANAGER_ENABLED_', '', d)}"
 
 # we need to patch to code for Filogic
 do_filogic_patches() {
@@ -62,7 +62,7 @@ do_filogic_patches-append() {
 
 addtask filogic_patches after do_unpack before do_compile
 
-do_install_append() {
+do_install:append() {
 
     # Don't install header files which are provided by utopia-headers
     rm -f ${D}${includedir}/utctx/autoconf.h
@@ -208,7 +208,7 @@ sysevent set wan-status started ' ${D}${sysconfdir}/utopia/utopia_init.sh
 }
 
 
-FILES_${PN} += " \
+FILES:${PN} += " \
     /rdklogs/ \
     /fss/gw/bin/ \
     /fss/gw/usr/bin/ \
@@ -219,5 +219,5 @@ FILES_${PN} += " \
 "
 
 # 0001-fix-lan-handler-for-filogic.patch contains bash specific syntax which doesn't run with busybox sh
-RDEPENDS_${PN} += "bash"
+RDEPENDS:${PN} += "bash"
 

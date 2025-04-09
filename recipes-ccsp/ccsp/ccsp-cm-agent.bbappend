@@ -1,12 +1,12 @@
 require ccsp_common_filogic.inc
-FILESEXTRAPATHS_append := "${THISDIR}/files:"
+FILESEXTRAPATHS:append := "${THISDIR}/files:"
 
-DEPENDS_append_dunfell = " safec"
-LDFLAGS_append_dunfell = " -lsafec-3.5.1"
+DEPENDS:append_dunfell = " safec"
+LDFLAGS:append_dunfell = " -lsafec-3.5.1"
 
-EXTRA_OECONF_remove = " ${@bb.utils.contains('DISTRO_FEATURES', 'rdkb_wan_manager', '--enable-wanmgr', '', d)}"
+EXTRA_OECONF:remove = " ${@bb.utils.contains('DISTRO_FEATURES', 'rdkb_wan_manager', '--enable-wanmgr', '', d)}"
 
-SRC_URI_append += " \
+SRC_URI:append += " \
     file://Fix-ccsp-cm-agent-build-error.patch;apply=no \
 "
 
@@ -20,7 +20,7 @@ do_filogic_patches() {
 }
 addtask filogic_patches after do_unpack before do_configure
 
-do_install_append() {
+do_install:append() {
     # Config files and scripts
     install -m 644 ${S}/config-arm/CcspCMDM.cfg ${D}${prefix}/ccsp/cm/CcspCMDM.cfg
     install -m 644 ${S}/config-arm/CcspCM.cfg ${D}${prefix}/ccsp/cm/CcspCM.cfg

@@ -1,20 +1,20 @@
 require ccsp_common_filogic.inc
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
 LDFLAGS += " \
 	-lutopiautil \
 	   "
-CFLAGS_append = " -Wno-error "
+CFLAGS:append = " -Wno-error "
 
 #work around for wifi restart_flag=false, for meshagent synchroniztaion
-do_configure_prepend() {
+do_configure:prepend() {
 sed -i '/wlanRestart == TRUE/!{p;d;};n;a #if defined(ENABLE_FEATURE_MESHWIFI)\n if ((sWiFiDmlSsidStoredCfg[wlanIndex].SSID, sWiFiDmlSsidRunningCfg[wlanIndex].SSID) != 0)\n {\n char arg[256] = {0};\n snprintf(arg, sizeof(arg), "RDK|%d|%s",wlanIndex,sWiFiDmlSsidStoredCfg[wlanIndex].SSID);\n char * const cmd[] = {"/usr/bin/sysevent", "set", "wifi_SSIDName", arg, NULL};\n execvp_wrapper(cmd);\n }\n #endif\n'  ${S}/source/TR-181/sbapi/cosa_wifi_apis.c
 }
 
-DEPENDS_append_dunfell = " avro-c"
+DEPENDS:append_dunfell = " avro-c"
 
-SRC_URI_append = " \
+SRC_URI:append = " \
     file://wifiTelemetrySetup.sh \
     file://checkwifi.sh \
     file://radio_param_def.cfg \
@@ -35,9 +35,9 @@ do_ccspwifiagent_patches() {
 }
 addtask ccspwifiagent_patches after do_unpack before do_configure
 
-EXTRA_OECONF_append_dunfell  = " --with-ccsp-arch=arm"
+EXTRA_OECONF:append_dunfell  = " --with-ccsp-arch=arm"
 
-do_install_append(){
+do_install:append(){
     install -m 777 ${D}/usr/bin/CcspWifiSsp -t ${D}/usr/ccsp/wifi/
     install -m 755 ${S}/scripts/cosa_start_wifiagent.sh ${D}/usr/ccsp/wifi
     install -m 777 ${WORKDIR}/wifiTelemetrySetup.sh ${D}/usr/ccsp/wifi/
@@ -46,7 +46,7 @@ do_install_append(){
     install -m 777 ${WORKDIR}/synclease.sh ${D}/usr/ccsp/wifi/
 }
 
-FILES_${PN} += " \
+FILES:${PN} += " \
     ${prefix}/ccsp/wifi/CcspWifiSsp \
     ${prefix}/ccsp/wifi/cosa_start_wifiagent.sh \
     ${prefix}/ccsp/wifi/wifiTelemetrySetup.sh \
@@ -56,4 +56,4 @@ FILES_${PN} += " \
     ${prefix}/bin/wifi_events_consumer \
 "
 
-LDFLAGS_append_dunfell = " -lpthread"
+LDFLAGS:append_dunfell = " -lpthread"

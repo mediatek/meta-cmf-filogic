@@ -10,7 +10,7 @@ PACKAGES = " \
 	  packagegroup-filogic-logan \
 	"
 
-RDEPENDS_packagegroup-filogic-logan = " \
+RDEPENDS:packagegroup-filogic-logan = " \
     packagegroup-core-boot \
     wireless-tools \
     linux-mac80211 \
@@ -27,7 +27,7 @@ RDEPENDS_packagegroup-filogic-logan = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'ccn34', '', 'warp', d)} \
     mt-wifi7 \
     mt-hwifi \
-    mt-wifi-cmn \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'mt7993-be3600', 'mt-wifi-osal', 'mt-wifi-cmn', d)} \
     mtfwd \
     logan-insmod \
     mwctl \
@@ -48,7 +48,7 @@ RDEPENDS_packagegroup-filogic-logan = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'ccn34', 'crypto-safexcel', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'ccn34', 'safexcel-insmod', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'ccn34', 'dummy-clickos', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'ccn34', 'mt-wifi-ce-mt7925', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'ccn34', 'scan-radio-insmod', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'scnrdo', 'mt-wifi-ce-mt7902', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'scnrdo', 'scan-radio-insmod', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'ccn34', 'dummy-clickos-insmod', '', d)} \
     "

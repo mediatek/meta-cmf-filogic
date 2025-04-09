@@ -1,10 +1,10 @@
 inherit rdk-image
 
-IMAGE_FEATURES_remove = "read-only-rootfs"
-IMAGE_FSTYPES_remove= "tar.gz"
+IMAGE_FEATURES:remove = "read-only-rootfs"
+IMAGE_FSTYPES:remove= "tar.gz"
 SYSTEMD_TOOLS = "systemd-analyze systemd-bootchart"
 # systemd-bootchart doesn't currently build with musl libc
-SYSTEMD_TOOLS_remove_libc-musl = "systemd-bootchart"
+SYSTEMD_TOOLS:remove:libc-musl = "systemd-bootchart"
 
 DEPENDS += "cryptsetup-native fit-rootfs-hash-tool-native "
 
@@ -53,21 +53,21 @@ IMAGE_INSTALL += " \
     "
 #IMAGE_INSTALL += " opensync openvswitch mesh-agent e2fsprogs "
 
-IMAGE_INSTALL_append += " marvell-eth-firmware  airoha-eth-firmware "
+IMAGE_INSTALL:append += " marvell-eth-firmware  airoha-eth-firmware "
 
 
 BB_HASH_IGNORE_MISMATCH = "1"
 IMAGE_NAME[vardepsexclude] = "DATETIME"
 
 #ESDK-CHANGES
-do_populate_sdk_ext_prepend() {
+do_populate_sdk_ext:prepend() {
     builddir = d.getVar('TOPDIR')
     if os.path.exists(builddir + '/conf/templateconf.cfg'):
         with open(builddir + '/conf/templateconf.cfg', 'w') as f:
             f.write('meta/conf\n')
 }
 
-sdk_ext_postinst_append() {
+sdk_ext_postinst:append() {
    echo "ln -s $target_sdk_dir/layers/openembedded-core/meta-rdk $target_sdk_dir/layers/openembedded-core/../meta-rdk \n" >> $env_setup_script
 }
 
@@ -83,7 +83,7 @@ remove_unused_file() {
    for i in ${REMOVED_FILE_LIST} ; do rm -rf ${IMAGE_ROOTFS}/$i ; done
 }
 
-ROOTFS_POSTPROCESS_COMMAND_append = "remove_unused_file; "
+ROOTFS_POSTPROCESS_COMMAND:append = "remove_unused_file; "
 
 do_filogic_gen_image(){
 	if ${@bb.utils.contains('DISTRO_FEATURES','kernel_in_ubi','true','false',d)}; then

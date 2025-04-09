@@ -1,14 +1,14 @@
 require ccsp_common_filogic.inc
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:${THISDIR}/files:"
 
-DEPENDS_append_filogic = " breakpad"
-CXXFLAGS_append_filogic = " \
+DEPENDS:append_filogic = " breakpad"
+CXXFLAGS:append_filogic = " \
                                 -I${STAGING_INCDIR}/breakpad \
                                 -std=c++11 \
                               "
 
-SRC_URI_append = " \
+SRC_URI:append = " \
     file://ccsp_vendor.h \
     file://wifiinitialized.service \
     file://checkfilogicwifisupport.service \
@@ -19,13 +19,12 @@ SRC_URI_append = " \
     file://utopia.service \
 "
 
-SRC_URI_remove_dunfell = "file://0001-DBusLoop-SSL_state-TLS_ST_OK.patch"
+SRC_URI:remove:dunfell = "file://0001-DBusLoop-SSL_state-TLS_ST_OK.patch"
 
 SRC_URI += "file://0003-add-dependency-to-pandm.patch;apply=no"
 SRC_URI += "file://0004-fix-out-of-array-access.patch;apply=no"
 
-SRC_URI_append_dunfell = " file://0001-DBusLoop-SSL_state-TLS_ST_OK.patch;apply=no"
-
+SRC_URI:append:dunfell = " file://0001-DBusLoop-SSL_state-TLS_ST_OK.patch;apply=no"
 
 # we need to patch to code for Filogic
 do_filogic_patches() {
@@ -44,7 +43,7 @@ do_filogic_patches() {
 }
 addtask filogic_patches after do_unpack before do_compile
 
-do_install_append_class-target(){
+do_install:append:class-target(){
     # Config files and scripts
     install -m 777 ${S}/scripts/cli_start_arm.sh ${D}/usr/ccsp/cli_start.sh
     install -m 777 ${S}/scripts/cosa_start_arm.sh ${D}/usr/ccsp/cosa_start.sh
@@ -152,36 +151,36 @@ fi' ${D}/usr/ccsp/ccspPAMCPCheck.sh
     fi
 }
 
-do_install_append_dunfell_class-target () {
+do_install:append_dunfell:class-target () {
     #for yocto 3.1, Making psm to run after gwprovethwan
     sed -i '/CcspCrSsp.service/c After=CcspCrSsp.service gwprovethwan.service' ${D}${systemd_unitdir}/system/PsmSsp.service
 }
 
-SYSTEMD_SERVICE_${PN} += "CcspCrSsp.service"
-SYSTEMD_SERVICE_${PN} += "CcspPandMSsp.service"
-SYSTEMD_SERVICE_${PN} += "PsmSsp.service"
-SYSTEMD_SERVICE_${PN} += "rdkbLogMonitor.service"
-SYSTEMD_SERVICE_${PN} += "CcspTandDSsp.service"
-SYSTEMD_SERVICE_${PN} += "CcspLMLite.service"
-SYSTEMD_SERVICE_${PN} += "CcspTr069PaSsp.service"
-SYSTEMD_SERVICE_${PN} += "snmpSubAgent.service"
-SYSTEMD_SERVICE_${PN} += "CcspEthAgent.service"
-SYSTEMD_SERVICE_${PN} += "wifiinitialized.service"
-SYSTEMD_SERVICE_${PN} += "checkfilogicwifisupport.service"
-SYSTEMD_SERVICE_${PN} += "wifiinitialized.path"
-SYSTEMD_SERVICE_${PN} += "filogicwifiinitialized.path"
-SYSTEMD_SERVICE_${PN} += "checkfilogicwifisupport.path"
-SYSTEMD_SERVICE_${PN} += "wifi-initialized.target"
-SYSTEMD_SERVICE_${PN} += "ProcessResetDetect.path"
-SYSTEMD_SERVICE_${PN} += "ProcessResetDetect.service"
-SYSTEMD_SERVICE_${PN} += "rfc.service"
-SYSTEMD_SERVICE_${PN} += "CcspTelemetry.service"
-SYSTEMD_SERVICE_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'rdkb_wan_manager', 'RdkWanManager.service utopia.service RdkVlanManager.service ', '', d)}"
-SYSTEMD_SERVICE_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'fwupgrade_manager', 'RdkFwUpgradeManager.service ', '', d)}"
-SYSTEMD_SERVICE_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'OneWifi', 'onewifi.service ', 'ccspwifiagent.service', d)}"
-SYSTEMD_SERVICE_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'webconfig_bin', 'webconfig.service', '', d)}"
+SYSTEMD_SERVICE:${PN} += "CcspCrSsp.service"
+SYSTEMD_SERVICE:${PN} += "CcspPandMSsp.service"
+SYSTEMD_SERVICE:${PN} += "PsmSsp.service"
+SYSTEMD_SERVICE:${PN} += "rdkbLogMonitor.service"
+SYSTEMD_SERVICE:${PN} += "CcspTandDSsp.service"
+SYSTEMD_SERVICE:${PN} += "CcspLMLite.service"
+SYSTEMD_SERVICE:${PN} += "CcspTr069PaSsp.service"
+SYSTEMD_SERVICE:${PN} += "snmpSubAgent.service"
+SYSTEMD_SERVICE:${PN} += "CcspEthAgent.service"
+SYSTEMD_SERVICE:${PN} += "wifiinitialized.service"
+SYSTEMD_SERVICE:${PN} += "checkfilogicwifisupport.service"
+SYSTEMD_SERVICE:${PN} += "wifiinitialized.path"
+SYSTEMD_SERVICE:${PN} += "filogicwifiinitialized.path"
+SYSTEMD_SERVICE:${PN} += "checkfilogicwifisupport.path"
+SYSTEMD_SERVICE:${PN} += "wifi-initialized.target"
+SYSTEMD_SERVICE:${PN} += "ProcessResetDetect.path"
+SYSTEMD_SERVICE:${PN} += "ProcessResetDetect.service"
+SYSTEMD_SERVICE:${PN} += "rfc.service"
+SYSTEMD_SERVICE:${PN} += "CcspTelemetry.service"
+SYSTEMD_SERVICE:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'rdkb_wan_manager', 'RdkWanManager.service utopia.service RdkVlanManager.service ', '', d)}"
+SYSTEMD_SERVICE:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'fwupgrade_manager', 'RdkFwUpgradeManager.service ', '', d)}"
+SYSTEMD_SERVICE:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'OneWifi', 'onewifi.service ', 'ccspwifiagent.service', d)}"
+SYSTEMD_SERVICE:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'webconfig_bin', 'webconfig.service', '', d)}"
 
-FILES_${PN}_append = " \
+FILES:${PN}:append = " \
     /usr/ccsp/ccspSysConfigEarly.sh \
     /usr/ccsp/ccspSysConfigLate.sh \
     /usr/ccsp/utopiaInitCheck.sh \
@@ -207,6 +206,6 @@ FILES_${PN}_append = " \
     ${systemd_unitdir}/system/rfc.service \
     ${systemd_unitdir}/system/CcspTelemetry.service \
 "
-FILES_${PN}_append = "${@bb.utils.contains('DISTRO_FEATURES', 'rdkb_wan_manager', ' ${systemd_unitdir}/system/RdkWanManager.service ${systemd_unitdir}/system/utopia.service ${systemd_unitdir}/system/RdkVlanManager.service ${systemd_unitdir}/system/RdkTelcoVoiceManager.service ', '', d)}"
-FILES_${PN}_append = "${@bb.utils.contains('DISTRO_FEATURES', 'fwupgrade_manager', ' ${systemd_unitdir}/system/RdkFwUpgradeManager.service ', '', d)}"
-FILES_${PN}_append = "${@bb.utils.contains('DISTRO_FEATURES', 'OneWifi', ' ${systemd_unitdir}/system/onewifi.service ', '  ${systemd_unitdir}/system/ccspwifiagent.service ', d)}"
+FILES:${PN}:append = "${@bb.utils.contains('DISTRO_FEATURES', 'rdkb_wan_manager', ' ${systemd_unitdir}/system/RdkWanManager.service ${systemd_unitdir}/system/utopia.service ${systemd_unitdir}/system/RdkVlanManager.service ${systemd_unitdir}/system/RdkTelcoVoiceManager.service ', '', d)}"
+FILES:${PN}:append = "${@bb.utils.contains('DISTRO_FEATURES', 'fwupgrade_manager', ' ${systemd_unitdir}/system/RdkFwUpgradeManager.service ', '', d)}"
+FILES:${PN}:append = "${@bb.utils.contains('DISTRO_FEATURES', 'OneWifi', ' ${systemd_unitdir}/system/onewifi.service ', '  ${systemd_unitdir}/system/ccspwifiagent.service ', d)}"

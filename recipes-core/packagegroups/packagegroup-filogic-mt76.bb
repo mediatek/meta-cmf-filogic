@@ -9,7 +9,7 @@ PACKAGES = " \
 	  packagegroup-filogic-mt76 \
 	"
 
-RDEPENDS_packagegroup-filogic-mt76 = " \
+RDEPENDS:packagegroup-filogic-mt76 = " \
     packagegroup-core-boot \
     wireless-tools \
     ${@bb.utils.contains('DISTRO_FEATURES','OneWifi','','hostapd',d)} \

@@ -1,1 +1,1 @@
-LDFLAGS_append_dunfell = " -lrt"
+LDFLAGS:append_dunfell = " -lrt"

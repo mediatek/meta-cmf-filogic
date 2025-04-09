@@ -1,10 +1,10 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-SRC_URI_append = "file://igmpproxy.conf \
+SRC_URI:append = "file://igmpproxy.conf \
 				 "
 
-do_install_append () {
+do_install:append () {
     install -p ${S}/../igmpproxy.conf ${D}/etc/
 }
 
-FILES_${PN} += "/etc/*"
+FILES:${PN} += "/etc/*"

@@ -22,7 +22,7 @@ BBMASK .= "${@'' if os.path.isdir('|meta-openembedded/meta-oe/recipes-devtools/b
 #To avoid build warning
 BBMASK .= "|meta-rdk-ext/recipes-support/iksemel/iksemel_1.5.bb"
 BBMASK .= "|meta-cmf-broadband/recipes-core/util-linux/"
-BBMASK_append .= "|meta-cmf/recipes-extended/smartmon/"
-BBMASK_append .= "|meta-rdk/recipes-common/rtremote/"
-BBMASK_append_dunfell .= "|meta-filogic/recipes-kernel/linux-libc-headers/"
-BBMASK_append_dunfell .= "|meta-filogic/recipes-wifi/lua/"
+BBMASK:append .= "|meta-cmf/recipes-extended/smartmon/"
+BBMASK:append .= "|meta-rdk/recipes-common/rtremote/"
+BBMASK:append_dunfell .= "|meta-filogic/recipes-kernel/linux-libc-headers/"
+BBMASK:append_dunfell .= "|meta-filogic/recipes-wifi/lua/"

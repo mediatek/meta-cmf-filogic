@@ -1,18 +1,18 @@
 require ccsp_common_filogic.inc
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 EXTRA_OECONF += "PHP_RPATH=no"
 
 SRC_URI += "${CMF_GIT_ROOT}/rdkb/devices/raspberrypi/sysint;protocol=${CMF_GIT_PROTOCOL};branch=${CMF_GIT_BRANCH};destsuffix=git/devices;name=webuijst"
 SRCREV_webuijst = "${AUTOREV}"
 
-SRC_URI_append = " \
+SRC_URI:append = " \
          file://CcspWebUI.sh \
          file://CcspWebUI.service \
 "
 inherit systemd
-do_install_append () {
+do_install:append () {
                 install -d ${D}${sysconfdir}
                 install -d ${D}${base_libdir}/rdk/
                 install -d ${D}${systemd_unitdir}/system/
@@ -40,5 +40,5 @@ do_install_append () {
                 sed -i "s/\/usr\/www/\/usr\/www2/g" ${D}${systemd_unitdir}/system/CcspWebUI.service
 }
 
-SYSTEMD_SERVICE_${PN} += "CcspWebUI.service"
-FILES_${PN} += "${systemd_unitdir}/system/CcspWebUI.service ${base_libdir}/rdk/*"
+SYSTEMD_SERVICE:${PN} += "CcspWebUI.service"
+FILES:${PN} += "${systemd_unitdir}/system/CcspWebUI.service ${base_libdir}/rdk/*"

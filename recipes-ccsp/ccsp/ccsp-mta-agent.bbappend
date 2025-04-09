@@ -1,9 +1,9 @@
 require ccsp_common_filogic.inc
 
-DEPENDS_append_dunfell = " safec"
-LDFLAGS_append_dunfell = " -lsafec-3.5.1"
+DEPENDS:append_dunfell = " safec"
+LDFLAGS:append_dunfell = " -lsafec-3.5.1"
 
-do_install_append() {
+do_install:append() {
     # Config files and scripts
     install -m 644 ${S}/config/CcspMtaAgent.xml ${D}/usr/ccsp/mta/CcspMtaAgent.xml
     install -m 644 ${S}/config/CcspMta.cfg ${D}/usr/ccsp/mta/CcspMta.cfg

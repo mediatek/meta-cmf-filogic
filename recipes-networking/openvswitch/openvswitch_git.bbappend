@@ -1,11 +1,11 @@
-DEPENDS_remove = "virtual/kernel bridge-utils"
-DEPENDS_append_class-target = " virtual/kernel"
-DEPENDS_append_class-target = " bridge-utils"
+DEPENDS:remove = "virtual/kernel bridge-utils"
+DEPENDS:append:class-target = " virtual/kernel"
+DEPENDS:append:class-target = " bridge-utils"
 
 
 EXTRA_OECONF += "--enable-ssl"
 
 #disable openvswitch autostart
-SYSTEMD_SERVICE_${PN}-switch = ""
+SYSTEMD_SERVICE:${PN}-switch = ""
 
 PACKAGECONFIG[ssl] = " "

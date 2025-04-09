@@ -1,2 +1,2 @@
-RDEPENDS_packagegroup-rdk-oss-broadband_remove = "alljoyn"
-RDEPENDS_packagegroup-rdk-oss-broadband_remove = " zilker-sdk"
+RDEPENDS:packagegroup-rdk-oss-broadband:remove = "alljoyn"
+RDEPENDS:packagegroup-rdk-oss-broadband:remove = " zilker-sdk"

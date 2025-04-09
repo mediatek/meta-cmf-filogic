@@ -1,40 +1,40 @@
 
-DISTRO_FEATURES_append = " rdk-oss-ssa"
-DISTRO_FEATURES_remove_dunfell = "telemetry2_0"
+DISTRO_FEATURES:append = " rdk-oss-ssa"
+DISTRO_FEATURES:remove_dunfell = "telemetry2_0"
 
 # RDKBDEV-73 : Dynamic DNS : Standardization based on broadband-forum.
-DISTRO_FEATURES_append = " ddns_broadband"
+DISTRO_FEATURES:append = " ddns_broadband"
 
 # RDKBDEV-83 : Device Gateway Association using Managed Device
-DISTRO_FEATURES_append = " device_gateway_association"
+DISTRO_FEATURES:append = " device_gateway_association"
 
 # RDKBDEV-50: Adding DSLite Functionality and related TR-181 DataModel Parameters
-DISTRO_FEATURES_append = " dslite"
+DISTRO_FEATURES:append = " dslite"
 
 # REFPLTV-1137: DLNA support for xupnp
-DISTRO_FEATURES_append = " dlna"
+DISTRO_FEATURES:append = " dlna"
 
-DISTRO_FEATURES_append = " webconfig_bin"
+DISTRO_FEATURES:append = " webconfig_bin"
 
 # RDKB-44824: CoreNetLib move bb file location
-DISTRO_FEATURES_append = " core-net-lib"
+DISTRO_FEATURES:append = " core-net-lib"
 
 # RDKB-48800: Install DHCP Manager service file
-#DISTRO_FEATURES_append_broadband = " dhcp_manager"
+#DISTRO_FEATURES:append_broadband = " dhcp_manager"
 
 # Fix MeshAgent build errors
-DISTRO_FEATURES_append_broadband = " WanFailOverSupportEnable"
+DISTRO_FEATURES:append_broadband = " WanFailOverSupportEnable"
 
-DISTRO_FEATURES_append_kirkstone = " kirkstone"
-DISTRO_FEATURES_NATIVE_append_kirkstone = " kirkstone"
+DISTRO_FEATURES:append_kirkstone = " kirkstone"
+DISTRO_FEATURES_NATIVE:append_kirkstone = " kirkstone"
 
-DISTRO_FEATURES_append = " meshwifi"
-DISTRO_FEATURES_append = " ipv6"
-DISTRO_FEATURES_append = " rdkb_wan_manager"
-DISTRO_FEATURES_append = " filogic"
-#DISTRO_FEATURES_append = " easymesh-controller"
-#DISTRO_FEATURES_append = " emmc"
-#DISTRO_FEATURES_append = " samba"
-DISTRO_FEATURES_append = " three_gmac"
+DISTRO_FEATURES:append = " meshwifi"
+DISTRO_FEATURES:append = " ipv6"
+DISTRO_FEATURES:append = " rdkb_wan_manager"
+DISTRO_FEATURES:append = " filogic"
+#DISTRO_FEATURES:append = " easymesh-controller"
+#DISTRO_FEATURES:append = " emmc"
+#DISTRO_FEATURES:append = " samba"
+DISTRO_FEATURES:append = " three_gmac"
 HOSTTOOLS += " python"
 

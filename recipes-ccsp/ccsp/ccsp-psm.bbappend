@@ -1,8 +1,8 @@
 require ccsp_common_filogic.inc
 
-LDFLAGS_append_dunfell = " -lsafec-3.5.1"
+LDFLAGS:append_dunfell = " -lsafec-3.5.1"
 
-do_install_append() {
+do_install:append() {
     # Config files and scripts
     install -d ${D}/usr/ccsp/config
     install -m 644 ${S}/config/bbhm_def_cfg_qemu.xml ${D}/usr/ccsp/config/bbhm_def_cfg.xml
@@ -94,4 +94,4 @@ do_install_append() {
     fi
 }
 
-LDFLAGS_append_dunfell = " -lpthread"
+LDFLAGS:append_dunfell = " -lpthread"
