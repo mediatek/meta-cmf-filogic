@@ -17,23 +17,22 @@
 
 #!/bin/sh
 
-wifi_wifi0=`iwconfig wifi0|grep IEEE\ 802.11 | wc -l`
-wifi_wifi1=`iwconfig wifi1|grep IEEE\ 802.11 | wc -l`
-wifi_wifi2=`iwconfig wifi2|grep IEEE\ 802.11 | wc -l`
-wifi_wifi3=`iwconfig wifi3|grep IEEE\ 802.11 | wc -l`
-
+wifi_wifi0=`iwinfo wifi0 info|grep nl80211 | wc -l`
+wifi_wifi1=`iwinfo wifi1 info|grep nl80211 | wc -l`
+wifi_wifi2=`iwinfo wifi2 info|grep nl80211 | wc -l`
+wifi_wifi3=`iwinfo wifi3 info|grep nl80211 | wc -l`
 if [ $wifi_wifi0 == "1" ] ; then
         flag=wifi0 
-        wifi0=$(iwconfig wifi0|grep IEEE\ 802.11)
+        wifi0=$(iwinfo wifi0 info|grep nl80211)
 elif [ $wifi_wifi1 == "1" ]; then
         flag=wifi1 
-        wifi0=$(iwconfig wifi1|grep IEEE\ 802.11)
+        wifi0=$(iwinfo wifi1 info|grep nl80211)
 elif [ $wifi_wifi2 == "1" ]; then 
         flag=wifi2 
-        wifi0=$(iwconfig wifi2|grep IEEE\ 802.11)
+        wifi0=$(iwinfo wifi2 info|grep nl80211)
 elif [ $wifi_wifi3 == "1" ]; then 
         flag=wifi3 
-        wifi0=$(iwconfig wifi3|grep IEEE\ 802.11) 
+        wifi0=$(iwinfo wifi3 info|grep nl80211)
 fi 
 
 wifi_driver_init=${#wifi0}
