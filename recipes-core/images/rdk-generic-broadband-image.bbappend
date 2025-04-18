@@ -38,7 +38,7 @@ IMAGE_INSTALL += " \
     strongswan \
     libpcap \
     tcpdump \
-    ${@bb.utils.contains('DISTRO_FEATURES','kernel6-6','linux-firmware-mt7988 fitblk','mediatek-eth-firmware',d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES','kernel6-6','linux-firmware-mt7988  linux-firmware-airoha fitblk','airoha-eth-firmware',d)} \
     ${@bb.utils.contains('DISTRO_FEATURES','kernel6-6','','perf',d)} \
     ${@bb.utils.contains('DISTRO_FEATURES','mt76','packagegroup-filogic-mt76','',d)} \
     ${@bb.utils.contains('DISTRO_FEATURES','logan','packagegroup-filogic-logan','',d)} \
@@ -53,7 +53,7 @@ IMAGE_INSTALL += " \
     "
 #IMAGE_INSTALL += " opensync openvswitch mesh-agent e2fsprogs "
 
-IMAGE_INSTALL:append += " marvell-eth-firmware  airoha-eth-firmware "
+IMAGE_INSTALL:append += " marvell-eth-firmware  mediatek-eth-firmware "
 
 
 BB_HASH_IGNORE_MISMATCH = "1"
