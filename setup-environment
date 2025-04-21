@@ -34,7 +34,7 @@ fi
 BUILD_DIR=$(pwd)
 _RDK_FLAVOR="rdkb"
 
-if [[ -z $(grep 'meta-cmf-filogic' conf/bblayers.conf) ]] && [[ -d  ../meta-cmf-filogic ]]
+if [[ -z $(grep 'meta-cmf-filogic"' conf/bblayers.conf) ]] && [[ -d  ../meta-cmf-filogic ]]
 then
     cat >> conf/bblayers.conf <<EOF
 BBLAYERS =+ "\${RDKROOT}/meta-cmf-filogic"
