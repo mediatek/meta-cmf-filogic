@@ -2,11 +2,43 @@
 
 ## Compile Environment Requirement
 
-- Use Ubuntu 18.04
+- for kernel 5.4: Use Ubuntu 18.04
+- for kernel 6.6: Use Ubuntu 22.04
 
 ---
 
 ## Latest Release Version
+
+#### Filogic 880/860 WiFi7 Kernel6.6 MLO MP4.1 Release (20250509)
+
+##### External Release
+
+```
+#Get  latest RDKB core release  : https://wiki.rdkcentral.com/display/CMF/RDK-B+Code+Releases
+
+kirkstone : repo init -u https://code.rdkcentral.com/r/rdkcmf/manifests  -b rdkb-2025q1-kirkstone -m rdkb-nosrc.xml
+
+repo sync -j `nproc` --no-clone-bundle --no-tags
+
+#Get filogic BSP meta layer
+git clone https://git01.mediatek.com/filogic/rdk-b/meta-filogic
+cd meta-filogic; git checkout c156817e117323d8c92b189c2f15a28962cb8f5c; cd -;
+
+#Get filogic Adapter cmf layer
+git clone https://git01.mediatek.com/filogic/rdk-b/meta-cmf-filogic
+cd meta-cmf-filogic; git checkout 1b4b8718711146067f8ad438cfaac16552806944; cd -;
+
+#Choose one platform to build
+#Filogic880
+MACHINE=filogic880-kerenl6-6 source meta-cmf-filogic/setup-environment-release && bitbake rdk-generic-broadband-image
+
+#Bpi-r4
+MACHINE=filogic880-kernel6-6-bpi-r4 source meta-cmf-filogic/setup-environment-release && bitbake rdk-generic-broadband-image
+```
+
+##### WiFi Package Version
+
+refer to https://git01.mediatek.com/plugins/gitiles/openwrt/feeds/mtk-openwrt-feeds/+/refs/heads/master/autobuild/unified/#wi_fi-7-latest-release-version-filogic-880_860-wifi7-mp4_1-release-2025_04_25-wifi-package-version
 
 #### Filogic 880/860 WiFi7 MLO MP Release (20250110)
 
