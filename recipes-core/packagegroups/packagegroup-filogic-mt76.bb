@@ -27,4 +27,5 @@ RDEPENDS:packagegroup-filogic-mt76 = " \
     atenl \
     mt76-test \
     iwinfo \
+    nftables \
     "
