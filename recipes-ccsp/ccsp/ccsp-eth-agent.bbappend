@@ -6,6 +6,7 @@ SRC_URI:append += " \
     file://Fix-ccsp-eth-agent-build-error.patch;apply=no \
 "
 
+CFLAGS_remove = "-DFEATURE_SUPPORT_ONBOARD_LOGGING "
 do_filogic_patches() {
     cd ${S}
 
