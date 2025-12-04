@@ -7,7 +7,7 @@ git clone --branch master https://gerrit.mediatek.inc/openwrt/feeds/mtk_openwrt_
 echo "sync openwrt kernel..........."
 
 cd openwrt
-bash ../mtk_openwrt_feeds/autobuild/unified/autobuild.sh filogic-mac80211-mt7988_rfb-mt7996 sdk_release
+bash ../mtk_openwrt_feeds/autobuild/unified/autobuild.sh filogic-mac80211-mt7988_rfb-mt7996 prepare
 
 
 cd -
@@ -36,9 +36,14 @@ echo "sync medaitek kernel..........."
 cd openwrt/target/linux/mediatek/files-6.6
 patch -p1 < ../patches-6.6/999-2001-arm64-dts-mt7988-aqr-10gphy-disable-eee.patch
 patch -p1 < ../patches-6.6/999-2002-arm64-dts-mt7988-increase-mdc-for-aqr-10gphy.patch
+patch -p1 < ../patches-6.6/999-2003-arm64-dts-mt7988-use-software-reset-for-aqr-10gphy.patch
+patch -p1 < ../patches-6.6/999-2004-arm64-dts-mt7988-fix-typo-for-the-LAN-and-WAN-MAC-address.patch
 rm ../patches-6.6/999-2001-arm64-dts-mt7988-aqr-10gphy-disable-eee.patch
 rm ../patches-6.6/999-2002-arm64-dts-mt7988-increase-mdc-for-aqr-10gphy.patch
-rm meta-filogic/recipes-kernel/linux/linux-mediatek-6.6/mediatek/flow_patch
+rm ../patches-6.6/999-2003-arm64-dts-mt7988-use-software-reset-for-aqr-10gphy.patch
+rm ../patches-6.6/999-2004-arm64-dts-mt7988-fix-typo-for-the-LAN-and-WAN-MAC-address.patch
+
+rm -rf meta-filogic/recipes-kernel/linux/linux-mediatek-6.6/mediatek/flow_patch
 cd - 
 cp meta-cmf-filogic/mtk_scripts/rdkb_inc_helper openwrt/target/linux/mediatek
 cd openwrt/target/linux/mediatek/patches-6.6/
@@ -50,12 +55,21 @@ cd openwrt/target/linux/mediatek/
 mv patches-6.6.inc patches-6.6
 sed -i 's/863-arm64-dts-mt7986-add-sound-wm8960.patch/&;apply=no/' patches-6.6/patches-6.6.inc
 sed -i 's/999-2000-arm64-dts-mt7988-move-phys-to-sgmiipcs-and-usxgmiisy.patch/&;apply=no/' patches-6.6/patches-6.6.inc
+sed -i 's/999-2005-arm64-dts-mt7988-add-cpufreq-cooling-device.patch/&;apply=no/' patches-6.6/patches-6.6.inc
+sed -i 's/999-2006-arm64-dts-mt7988-add-pcie-wifi-reset-support.patch/&;apply=no/' patches-6.6/patches-6.6.inc
+sed -i 's/999-2138-dts-add-zts8232.patch/&;apply=no/' patches-6.6/patches-6.6.inc
+sed -i 's/999-2757-net-dsa-add-an8855-v2p0p1-and-netlink-support.patch/&;apply=no/' patches-6.6/patches-6.6.inc
+sed -i 's/999-2745-mtkhnat-add-mtkhnat-driver-support.patch/&;apply=no/' patches-6.6/patches-6.6.inc
+sed -i 's/999-2747-net-ethernet-mtk_eth_soc-add-internal-SER-notify-event.patch/&;apply=no/' patches-6.6/patches-6.6.inc
+sed -i 's/999-2775-net-ethernet-mtk_eth_soc-add-IEEE1588v2-support-for-NETSYSv3.1.patch/&;apply=no/' patches-6.6/patches-6.6.inc
+sed -i 's/999-2781-net-ethernet-mtk_eth_soc-support-multiple-dsa-switch-PPPQ.patch/&;apply=no/' patches-6.6/patches-6.6.inc
+sed -i 's/999-cpufreq-03-mediatek-enable-using-efuse-cali-data-for-mt7988-cpu-volt.patch/&;apply=no/' patches-6.6/patches-6.6.inc
 
 cd -
 rm -rf meta-filogic/recipes-kernel/linux/linux-mediatek-6.6/mediatek/patches-6.6
 rm -rf meta-filogic/recipes-kernel/linux/linux-mediatek-6.6/mediatek/files-6.6
 rm -rf meta-filogic/recipes-kernel/linux/linux-mediatek-6.6/mediatek/files
-rm -rf meta-filogic/recipes-kernel/linux/linux-mediatek-6.6/mediatek/flow_patch
+
 cp -rf openwrt/target/linux/mediatek/patches-6.6 meta-filogic/recipes-kernel/linux/linux-mediatek-6.6/mediatek
 cp -rf openwrt/target/linux/mediatek/files-6.6 meta-filogic/recipes-kernel/linux/linux-mediatek-6.6/mediatek
 cp -rf openwrt/target/linux/mediatek/files meta-filogic/recipes-kernel/linux/linux-mediatek-6.6/mediatek
@@ -66,9 +80,39 @@ mv meta-filogic/recipes-kernel/linux/linux-mediatek-6.6/mediatek/files-6.6/arch/
 echo "do medaitek kernel patch done..........."
 
 #update kernel version
-ver=`grep "LINUX_KERNEL_HASH-6" openwrt/include/kernel-6.6 | cut -c 19-24`
+ver=`grep "LINUX_KERNEL_HASH-6" openwrt/include/kernel-6.6 | cut -c 19-25`
 sed -i 's/LINUX_VERSION ?=.*/LINUX_VERSION ?= "'${ver}'"/g' meta-filogic/recipes-kernel/linux/linux-mediatek_6.6.bb
 #end
+
+echo "Update switch tool ...... "
+cp -rf mtk_openwrt_feeds/feed/app/switch/src meta-filogic/recipes-devtools/switch/files/
+
+echo "Update mii_mgr tool ...... "
+cp -rf mtk_openwrt_feeds/feed/app/mii_mgr/src meta-filogic/recipes-devtools/mii-mgr/files/
+
+echo "Update regs tool ...... "
+cp -rf mtk_openwrt_feeds/feed/app/regs/src meta-filogic/recipes-devtools/regs/files/
+
+echo "Update mtk-factory-rw tool ...... "
+cp -rf mtk_openwrt_feeds/feed/app/mtk_factory_rw/files/ meta-filogic/recipes-devtools/mtk-factory-rw/
+
+echo "Update smp-m76 script"
+cp -f  mtk_openwrt_feeds/feed/app/smp_util/files/*.sh meta-filogic/recipes-devtools/smp/files/
+
+echo "Update ftnl tools"
+cp -rf mtk_openwrt_feeds/feed/app/flowtable/src meta-filogic/recipes-devtools/flowtable/files/
+
+echo "Update eth fw"
+rm -rf meta-filogic/recipes-bsp/mediatek-eth-firmware/files/*
+rm -rf meta-filogic/recipes-bsp/marvell-eth-firmware/files/*
+cp -rf mtk_openwrt_feeds/feed/app/mt798x-2p5g-phy-firmware-internal/files/* meta-filogic/recipes-bsp/mediatek-eth-firmware/files/ 
+cp -rf mtk_openwrt_feeds/autobuild/unified/global/common/files/package/kernel/aqr10g-phy-fw/files/* meta-filogic/recipes-bsp/marvell-eth-firmware/files/
+echo "sync done..........."
+
+#don't sync this kernl file,so remove it.it is download form logan repo
+rm -rf meta-filogic/recipes-kernel/linux/linux-mediatek-5.4/mediatek/files-5.4/include/uapi/
+#save sync mtk_openwrt_feeds log
+cd mtk_openwrt_feeds/ && git log --oneline -n 200 > mtk_openwrt_feeds.log
 
 echo "sync compelte..........."
 exit 0

@@ -7,7 +7,7 @@ git clone --branch master https://gerrit.mediatek.inc/openwrt/feeds/mtk_openwrt_
 echo "sync openwrt kernel..........."
 
 cd openwrt
-bash ../mtk_openwrt_feeds/autobuild/unified/autobuild.sh filogic-mac80211-mt7988_rfb-mt7996 sdk_release
+bash ../mtk_openwrt_feeds/autobuild/unified/autobuild.sh filogic-mac80211-mt7988_rfb-mt7996 prepare
 
 
 cd -
@@ -31,7 +31,7 @@ cp -rf openwrt/package/kernel/mac80211/patches/patches/* meta-filogic/recipes-wi
 ver2=`grep "PKG_VERSION:=" openwrt/package/kernel/mac80211/Makefile | cut -c 14-`
 sed -i 's/PV_kernel6-6 =.*/PV_kernel6-6 = "'${ver2}'"/g' meta-filogic/recipes-wifi/linux-mac80211/version.inc
 ver3=`grep "PKG_HASH" openwrt/package/kernel/mac80211/Makefile | cut -c 11-`
-sed -i 's/SRC_URI_kernel6-6\[sha256sum\].*/SRC_URI_kernel6-6[sha256sum] = "'${ver3}'"/g' meta-filogic/recipes-wifi/linux-mac80211/version.inc
+sed -i 's/SHASUM-kernelv6 =.*/SHASUM-kernelv6 = "'${ver3}'"/g' meta-filogic/recipes-wifi/linux-mac80211/version.inc
 
 echo "mt76_3.x patches for kernel 6.6 support "
 cp meta-cmf-filogic/mtk_scripts/rdkb_inc_helper openwrt/package/kernel/mt76
@@ -67,9 +67,18 @@ ver=`grep "PKG_SOURCE_VERSION" openwrt/package/network/services/hostapd/Makefile
 sed -i 's/SRCREV_kernel6-6 =.*/SRCREV_kernel6-6 = "'$ver'"/g' meta-filogic/recipes-wifi/hostapd/version.inc
 sed -i 's/SRCREV_kernel6-6 =.*/SRCREV_kernel6-6 = "'$ver'"/g' meta-filogic/recipes-wifi/wpa-supplicant/version.inc
 
+echo "Update atenl ...... "
+cp -rf mtk_openwrt_feeds/feed/app/atenl/src meta-filogic/recipes-wifi/atenl/files/
+cp -f mtk_openwrt_feeds/feed/app/atenl/files/ated.sh meta-filogic/recipes-wifi/atenl/files/
+cp -f mtk_openwrt_feeds/feed/app/atenl/files/iwpriv.sh meta-filogic/recipes-wifi/atenl/files/
+
 echo "Update WiFi7 libubox version.........."
 ver=`grep "PKG_SOURCE_VERSION" openwrt/package/libs/libubox/Makefile | cut -c 21-`
 sed -i 's/wifi7_ver =.*/wifi7_ver = "'$ver'"/g' meta-filogic/recipes-wifi/libubox/libubox_git.bbappend
+
+echo "Update libnl-tiny version.........."
+ver=`grep "PKG_SOURCE_VERSION" openwrt/package/libs/libnl-tiny/Makefile | cut -c 21-`
+sed -i 's/SRCREV_kernel6-6 =.*/SRCREV_kernel6-6 = "'$ver'"/g' meta-filogic/recipes-wifi/libnl-tiny/libnl-tiny_git.bb
 
 echo "Update WiFi7 ubus version.........."
 ver=`grep "PKG_SOURCE_VERSION" openwrt/package/system/ubus/Makefile | cut -c 21-`
@@ -83,12 +92,34 @@ echo "Update WiFi7 udebug version.........."
 ver=`grep "PKG_SOURCE_VERSION" openwrt/package/libs/udebug/Makefile | cut -c 21-`
 sed -i 's/SRCREV ?=.*/SRCREV ?= "'$ver'"/g' meta-filogic/recipes-wifi/udebug/udebug_git.bb
 
+ver=`grep "PKG_VERSION:=" openwrt/package/network/utils/iw/Makefile | cut -c 14-`
+newbb=iw_${ver}.bb
+cd meta-filogic/recipes-wifi/iw/
+oldbb=`ls *.bb`
+echo "Update iw bb file name.........."
+mv ${oldbb} ${newbb}
+cd -
+
+echo "Update iw bb hash .........."
+hash1=`grep "PKG_HASH" openwrt/package/network/utils/iw/Makefile | cut -c 11-`
+sed -i 's/SRC_URI\[sha256sum\].*/SRC_URI[sha256sum] = "'${hash1}'"/g' meta-filogic/recipes-wifi/iw/${newbb}
+
+echo "update wifi7 iw patches"
+rm -rf meta-filogic/recipes-wifi/iw/patches-mlo
+cp meta-cmf-filogic/mtk_scripts/rdkb_inc_helper openwrt/package/network/utils/iw/
+cd openwrt/package/network/utils/iw/
+./rdkb_inc_helper patches
+mv patches.inc patches
+cd -
+mkdir meta-filogic/recipes-wifi/iw/patches-mlo
+cp -rf openwrt/package/network/utils/iw/patches/* meta-filogic/recipes-wifi/iw/patches-mlo/
+
 rm -rf meta-filogic/recipes-wifi/hostapd/files/kernel6-6-patches
 rm -rf meta-filogic/recipes-wifi/wpa-supplicant/files/kernel6-6-patches
 cp -rf openwrt/package/network/services/hostapd/patches meta-filogic/recipes-wifi/hostapd/files/kernel6-6-patches
 cp -rf openwrt/package/network/services/hostapd/patches meta-filogic/recipes-wifi/wpa-supplicant/files/kernel6-6-patches
-cp -rf openwrt/package/network/config/wifi-scripts/files/usr/share/hostap/*uc meta-filogic/recipes-wifi/hostapd/files/
-cp -rf openwrt/package/network/services/hostapd/files/*uc meta-filogic/recipes-wifi/hostapd/files/
+cp -rf openwrt/package/network/config/wifi-scripts/files/usr/share/hostap/*uc meta-filogic/recipes-wifi/hostapd/files/kernel6-6-uc-files/
+cp -rf openwrt/package/network/services/hostapd/files/*uc meta-filogic/recipes-wifi/hostapd/files/kernel6-6-uc-files/
 
 
 echo "Sync wifi from OpenWRT done , ready to commit meta-filogic!!!"
