@@ -23,7 +23,7 @@ RDEPENDS:packagegroup-filogic-mt76 = " \
     ${@bb.utils.contains('DISTRO_FEATURES','OneWifi','','usteer',d)} \
     uci \
     mt76-vendor \
-    ${@bb.utils.contains('DISTRO_FEATURES','OneWifi','vts','wifi-test-tool',d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES','OneWifi','','wifi-test-tool',d)} \
     atenl \
     mt76-test \
     iwinfo \

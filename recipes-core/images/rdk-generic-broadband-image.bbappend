@@ -50,11 +50,11 @@ IMAGE_INSTALL += " \
     ${@bb.utils.contains('DISTRO_FEATURES','efuse_tools','mtk-efuse-nl-drv mtk-efuse-nl-tool','',d)} \
     ${@bb.utils.contains('DISTRO_FEATURES','flow_offload','flowtable','',d)} \
     ${@bb.utils.contains('DISTRO_FEATURES','samba','ksmbd ksmbd-tools','',d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES','OneWifi','ccsp-tr069-pa bpi-serialnumber bpi-macaddress','',d)} \
     "
 #IMAGE_INSTALL += " opensync openvswitch mesh-agent e2fsprogs "
 
 IMAGE_INSTALL:append += " marvell-eth-firmware  mediatek-eth-firmware "
-
 
 BB_HASH_IGNORE_MISMATCH = "1"
 IMAGE_NAME[vardepsexclude] = "DATETIME"
