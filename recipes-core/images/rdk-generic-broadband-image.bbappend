@@ -38,8 +38,8 @@ IMAGE_INSTALL += " \
     strongswan \
     libpcap \
     tcpdump \
-    ${@bb.utils.contains('DISTRO_FEATURES','kernel6-6','linux-firmware-mt7988  linux-firmware-airoha fitblk','airoha-eth-firmware',d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES','kernel6-6','','perf',d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES','kernelv6','linux-firmware-mt7988  linux-firmware-airoha fitblk','airoha-eth-firmware',d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES','kernelv6','','perf',d)} \
     ${@bb.utils.contains('DISTRO_FEATURES','mt76','packagegroup-filogic-mt76','',d)} \
     ${@bb.utils.contains('DISTRO_FEATURES','logan','packagegroup-filogic-logan','',d)} \
     ${@bb.utils.contains('DISTRO_FEATURES','mtk_easymesh','packagegroup-filogic-mtk-easymesh','',d)} \
@@ -88,7 +88,7 @@ ROOTFS_POSTPROCESS_COMMAND:append = "remove_unused_file; "
 do_filogic_gen_image(){
 	if ${@bb.utils.contains('DISTRO_FEATURES','kernel_in_ubi','true','false',d)}; then
         # create sysupgrade image align to openwrt
-         if ${@bb.utils.contains('DISTRO_FEATURES','kernel6-6','true','false',d)}; then
+         if ${@bb.utils.contains('DISTRO_FEATURES','kernelv6','true','false',d)}; then
                 mv ${DEPLOY_DIR_IMAGE}/fitImage-filogic ${DEPLOY_DIR_IMAGE}/${PN}-${MACHINE}-sysupgrade.itb
          else
                 rm -rf ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}
