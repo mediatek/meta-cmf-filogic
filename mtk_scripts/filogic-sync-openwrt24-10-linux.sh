@@ -33,16 +33,6 @@ cp openwrt/target/linux/generic/config-6.6 meta-filogic/recipes-kernel/linux/lin
 
 echo "sync medaitek kernel..........."
 
-cd openwrt/target/linux/mediatek/files-6.6
-patch -p1 < ../patches-6.6/999-2001-arm64-dts-mt7988-aqr-10gphy-disable-eee.patch
-patch -p1 < ../patches-6.6/999-2002-arm64-dts-mt7988-increase-mdc-for-aqr-10gphy.patch
-patch -p1 < ../patches-6.6/999-2003-arm64-dts-mt7988-use-software-reset-for-aqr-10gphy.patch
-patch -p1 < ../patches-6.6/999-2004-arm64-dts-mt7988-fix-typo-for-the-LAN-and-WAN-MAC-address.patch
-rm ../patches-6.6/999-2001-arm64-dts-mt7988-aqr-10gphy-disable-eee.patch
-rm ../patches-6.6/999-2002-arm64-dts-mt7988-increase-mdc-for-aqr-10gphy.patch
-rm ../patches-6.6/999-2003-arm64-dts-mt7988-use-software-reset-for-aqr-10gphy.patch
-rm ../patches-6.6/999-2004-arm64-dts-mt7988-fix-typo-for-the-LAN-and-WAN-MAC-address.patch
-
 rm -rf meta-filogic/recipes-kernel/linux/linux-mediatek-6.6/mediatek/flow_patch
 cd - 
 cp meta-cmf-filogic/mtk_scripts/rdkb_inc_helper openwrt/target/linux/mediatek
@@ -75,8 +65,6 @@ cp -rf openwrt/target/linux/mediatek/files-6.6 meta-filogic/recipes-kernel/linux
 cp -rf openwrt/target/linux/mediatek/files meta-filogic/recipes-kernel/linux/linux-mediatek-6.6/mediatek
 cp -rf openwrt/target/linux/mediatek/flow_patch meta-filogic/recipes-kernel/linux/linux-mediatek-6.6/mediatek
 cp openwrt/target/linux/mediatek/filogic/config-6.6 meta-filogic/recipes-kernel/linux/linux-mediatek-6.6/mediatek/filogic.cfg
-rm -rf meta-filogic/recipes-kernel/dtbo/files/*
-mv meta-filogic/recipes-kernel/linux/linux-mediatek-6.6/mediatek/files-6.6/arch/arm64/boot/dts/mediatek/*dtso meta-filogic/recipes-kernel/dtbo/files/
 echo "do medaitek kernel patch done..........."
 
 #update kernel version

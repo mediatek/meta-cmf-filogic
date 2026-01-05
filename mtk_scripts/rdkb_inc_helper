@@ -54,7 +54,7 @@ def create_inc_file(output, name, patch_l):
     header_code = (
         "#patch %s (come from openwrt/lede/target/linux/mediatek)\n" % name
     )
-    script_code = "SRC_URI_append = \" \\\n"
+    script_code = "SRC_URI:append = \" \\\n"
     space = "    "
     prefix = "%sfile://" % space
     postfix = " \\"
