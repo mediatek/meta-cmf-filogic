@@ -39,6 +39,7 @@ RDEPENDS:packagegroup-rdk-ccsp-broadband:remove = "parodus"
 RDEPENDS:packagegroup-rdk-ccsp-broadband:remove = "parodus2ccsp"
 
 RDEPENDS:packagegroup-rdk-ccsp-broadband:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'rdkb_wan_manager', ' rdk-wanmanager ', '', d)} "
+RDEPENDS_packagegroup-rdk-ccsp-broadband:remove = " ${@bb.utils.contains('DISTRO_FEATURES','OneWifi','','rdk-wifi-hal',d)}"
 
 GWPROVAPP = ""
 
