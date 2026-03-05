@@ -8,6 +8,7 @@ CXXFLAGS:append_filogic = " \
                                 -std=c++11 \
                               "
 
+SRCREV_ccsp_common_library = "5130602e1d6addcc3be7ab4d38b504f5a530e661"
 SRC_URI:append = " \
     file://ccsp_vendor.h \
     file://wifiinitialized.service \
