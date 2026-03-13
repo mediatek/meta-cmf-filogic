@@ -38,3 +38,7 @@ DISTRO_FEATURES:append = " filogic"
 DISTRO_FEATURES:append = " three_gmac"
 HOSTTOOLS += " python"
 
+#Disable rdm-agent for reference platform
+DISTRO_FEATURES_append = " RDM"
+DISTRO_FEATURES_append = " rrd"
+

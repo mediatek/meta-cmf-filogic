@@ -145,3 +145,12 @@ if [ $(grep -c 'whitelist' $TOP_DIR/meta-cmf-filogic/conf/distro/include/rdk-fil
         echo "require conf/distro/include/whitelist_dunfell.inc" >> $TOP_DIR/meta-cmf-filogic/conf/distro/include/rdk-filogic.inc
     fi
 fi
+
+
+if [ ! -e $TOP_DIR/meta-rdk/recipes-common/rdm-agent/rdm_hal_change ]; then
+sed -i '77 s/^/#/' $TOP_DIR/meta-rdk/recipes-common/rdm-agent/rdm-agent.bb
+sed -i '78 s/^/#/' $TOP_DIR/meta-rdk/recipes-common/rdm-agent/rdm-agent.bb
+sed -i '79 s/^/#/' $TOP_DIR/meta-rdk/recipes-common/rdm-agent/rdm-agent.bb
+sed -i '80 s/^/#/' $TOP_DIR/meta-rdk/recipes-common/rdm-agent/rdm-agent.bb
+touch $TOP_DIR/meta-rdk/recipes-common/rdm-agent/rdm_hal_change
+fi
