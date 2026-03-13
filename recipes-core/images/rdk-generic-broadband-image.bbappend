@@ -54,7 +54,7 @@ IMAGE_INSTALL += " \
     "
 #IMAGE_INSTALL += " opensync openvswitch mesh-agent e2fsprogs "
 
-IMAGE_INSTALL:append += " marvell-eth-firmware  mediatek-eth-firmware "
+IMAGE_INSTALL:append += " eth-firmware  mediatek-eth-firmware "
 
 BB_HASH_IGNORE_MISMATCH = "1"
 IMAGE_NAME[vardepsexclude] = "DATETIME"
