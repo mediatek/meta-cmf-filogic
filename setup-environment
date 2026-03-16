@@ -147,7 +147,8 @@ if [ $(grep -c 'whitelist' $TOP_DIR/meta-cmf-filogic/conf/distro/include/rdk-fil
 fi
 
 
-if [ ! -e $TOP_DIR/meta-rdk/recipes-common/rdm-agent/rdm_hal_change ]; then
+if [[ ! -e $TOP_DIR/meta-rdk/recipes-common/rdm-agent/rdm_hal_change ]] && [[ $(grep -c 'rdm-agent' $TOP_DIR/meta-rdk/recipes-core/packagegroups/packagegroup-rdk-ccsp-broadband.bb) -ne 0 ]]
+then
 sed -i '77 s/^/#/' $TOP_DIR/meta-rdk/recipes-common/rdm-agent/rdm-agent.bb
 sed -i '78 s/^/#/' $TOP_DIR/meta-rdk/recipes-common/rdm-agent/rdm-agent.bb
 sed -i '79 s/^/#/' $TOP_DIR/meta-rdk/recipes-common/rdm-agent/rdm-agent.bb
