@@ -3,11 +3,45 @@
 ## Compile Environment Requirement
 
 - for kernel 5.4: Use Ubuntu 18.04
-- for kernel 6.6: Use Ubuntu 22.04
+- for kernel 6.6/6.12: Use Ubuntu 22.04
 
 ---
 
 ## Latest Release Version
+
+#### Filogic 880/850 WiFi7 Kernel6.12 MLO MP4.3 Release (20260327)
+
+##### External Release
+
+```
+#Get  latest RDKB core release  : https://wiki.rdkcentral.com/display/CMF/RDK-B+Code+Releases
+
+kirkstone : repo init -u https://code.rdkcentral.com/r/rdkcmf/manifests  -b rdkb-2025q4-kirkstone -m rdkb-nosrc.xml
+
+repo sync -j `nproc` --no-clone-bundle --no-tags
+
+#Get filogic BSP meta layer
+git clone https://git01.mediatek.com/filogic/rdk-b/meta-filogic
+cd meta-filogic; git checkout 77e17792f60279b6e1deb1f1c6abf5705972bc6f; cd -;
+
+#Get filogic Adapter cmf layer
+git clone https://git01.mediatek.com/filogic/rdk-b/meta-cmf-filogic
+cd meta-cmf-filogic; git checkout a68043b58a049ee5a93f3509c1f268fea73cc388; cd -;
+
+#Choose one platform to build
+#Filogic880
+MACHINE=filogic880-kerenl6-12 source meta-cmf-filogic/setup-environment-release && bitbake rdk-generic-broadband-image
+
+#Bpi-r4
+MACHINE=filogic880-kernel6-12-bpi-r4 source meta-cmf-filogic/setup-environment-release && bitbake rdk-generic-broadband-image
+
+#Filogic850
+MACHINE=filogic850-kerenl6-12 source meta-cmf-filogic/setup-environment-release && bitbake rdk-generic-broadband-image
+```
+
+##### WiFi Package Version
+
+refer to https://git01.mediatek.com/plugins/gitiles/openwrt/feeds/mtk-openwrt-feeds/+/refs/heads/master/autobuild/unified/Readme-6.12.md#wi_fi-7-latest-release-version-filogic-880_850-wifi7-4_3-formal-release-2026_03_13-wifi-package-version
 
 #### Filogic 880/860 WiFi7 Kernel6.6 MLO MP4.2 Release (20250926)
 
