@@ -1,0 +1,13 @@
+diff --git a/source/service_routed/service_routed.c b/source/service_routed/service_routed.c
+index 34e7ca3..17a0953 100644
+--- a/source/service_routed/service_routed.c
++++ b/source/service_routed/service_routed.c
+@@ -2442,7 +2442,7 @@ STATIC int routeset_ula(struct serv_routed *sr)
+     memset(lan_if,0,sizeof(lan_if));
+     memset(prev_lan_global_prefix,0,sizeof(prev_lan_global_prefix));
+ 
+-#ifdef WAN_FAILOVER_SUPPORTED
++#if defined(WAN_FAILOVER_SUPPORTED) && defined(FEATURE_RDKB_CONFIGURABLE_WAN_INTERFACE)
+     //Fetch Remote WAN interface name
+     int return_status = PSM_VALUE_GET_STRING(PSM_MESH_WAN_IFNAME, pStr);
+     if(return_status == CCSP_SUCCESS && pStr != NULL){

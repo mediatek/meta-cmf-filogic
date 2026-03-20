@@ -13,6 +13,7 @@ SRC_URI:append = " \
     file://system_defaults \
     file://0004-enable-sshd-by-default-at-bootup.patch;apply=no \
     file://service_bridge_mtk.sh \
+    file://0005-fix_utopia_build_issue.patch \
 "
 SRC_URI:append = "file://0001-Work-around-for-brlan0-issue.patch;apply=no"
 
