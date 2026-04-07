@@ -20,7 +20,7 @@ DISTRO_FEATURES:append = " webconfig_bin"
 DISTRO_FEATURES:append = " core-net-lib"
 
 # RDKB-48800: Install DHCP Manager service file
-#DISTRO_FEATURES:append_broadband = " dhcp_manager"
+DISTRO_FEATURES:append_broadband = " dhcp_manager"
 
 # Fix MeshAgent build errors
 DISTRO_FEATURES:append_broadband = " WanFailOverSupportEnable"
@@ -37,7 +37,7 @@ DISTRO_FEATURES:append = " filogic"
 #DISTRO_FEATURES:append = " samba"
 DISTRO_FEATURES:append = " three_gmac"
 HOSTTOOLS += " python"
-
+DISTRO_FEATURES_append = " rdkb_configurable_wan_interface"
 #Disable rdm-agent for reference platform
 DISTRO_FEATURES_append = " RDM"
 DISTRO_FEATURES_append = " rrd"
