@@ -366,7 +366,7 @@ $$lan_ethernet_physical_ifnames=lan0 lan1 lan2 lan3 lan4
 
 # lan_ipaddr          - the ip address to assign the lan_ifname
 # lan_netmask         - the netmask to assign the lan_ifname
-$lan_ipaddr=10.0.0.1
+$lan_ipaddr=192.168.1.1
 $lan_netmask=255.255.255.0
 
 # lan_domain          - the name of the lan side domain
@@ -399,8 +399,8 @@ $StaticRouteCount=0
 #                          clients a short lease in order to give wan a chance to come up
 $dhcp_nameserver_enabled=0
 $dhcp_server_enabled=1
-$dhcp_start=10.0.0.2
-$dhcp_end=10.0.0.253
+$dhcp_start=192.168.1.2
+$dhcp_end=192.168.1.253
 $dhcp_num=252
 $dhcp_lease_time=7d
 $dhcp_server_propagate_wan_domain=1

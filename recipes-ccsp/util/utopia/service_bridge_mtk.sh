@@ -215,7 +215,7 @@ add_ebtable_rule()
     echo "ip route add $subnet_wan dev $cmdiag_if" #proto kernel scope link src $cmdiag_ip"
     ip route add "$subnet_wan" dev "$cmdiag_if" #proto kernel scope link src $cmdiag_ip
 
-    dst_ip="10.0.0.1" # RT-10-580 @ XB3 
+    dst_ip="192.168.1.1" # RT-10-580 @ XB3
     echo "ip addr add $dst_ip/24 dev $cmdiag_if"
     ip addr add $dst_ip/24 dev "$cmdiag_if"
 
@@ -238,14 +238,14 @@ del_ebtable_rule()
     
     wan_if=`syscfg get wan_physical_ifname`
     wan_ip=`sysevent get ipv4_wan_ipaddr`
-    subnet_wan=`ip route show | grep "$cmdiag_if" | grep -v 192.168.100. | grep -v 10.0.0 | awk '/'"$cmdiag_if"'/ {print $1}'`
+    subnet_wan=`ip route show | grep "$cmdiag_if" | grep -v 192.168.100. | grep -v 192.168.1 | awk '/'"$cmdiag_if"'/ {print $1}'`
 
     ip route del "$subnet_wan" dev "$cmdiag_if"
     ip route add "$subnet_wan" dev "$wan_if" proto kernel scope link src "$wan_ip"
 
 
 
-    dst_ip="10.0.0.1" # RT-10-580 @ XB3 PRD
+    dst_ip="192.168.1.1" # RT-10-580 @ XB3 PRD
     ip addr del $dst_ip/24 dev "$cmdiag_if"
     ebtables -t nat -D PREROUTING -p ipv4 --ip-dst $dst_ip -j dnat --to-destination "$cmdiag_if_mac"
     #echo 0 > /proc/sys/net/ipv4/conf/wan0/arp_announce

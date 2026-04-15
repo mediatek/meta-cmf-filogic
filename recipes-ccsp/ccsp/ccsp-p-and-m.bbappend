@@ -98,7 +98,7 @@ do_install:append(){
     sed -i "/dibbler-server start/a fi" ${D}/etc/restart_services.sh
     sed -i "/dibbler-server start/a echo \"}\" >> \$LIGHTTPD_CONF" ${D}/etc/restart_services.sh
     sed -i "/dibbler-server start/a echo \"}\" >> \$LIGHTTPD_CONF" ${D}/etc/restart_services.sh
-    sed -i "/dibbler-server start/a echo \"\\\\\$HTTP[\\\\\"host\\\\\"] !~ \\\\\":8080\\\\\" {  \\\\\$HTTP[\\\\\"url\\\\\"] !~ \\\\\"captiveportal.php\\\\\" {  \\\\\$HTTP[\\\\\"referer\\\\\"] == \\\\\"\\\\\" { url.redirect = ( \\\\\".*\\\\\" => \\\\\"http://10.0.0.1/captiveportal.php\\\\\" ) url.redirect-code = 303 }\" >> \$LIGHTTPD_CONF" ${D}/etc/restart_services.sh
+    sed -i "/dibbler-server start/a echo \"\\\\\$HTTP[\\\\\"host\\\\\"] !~ \\\\\":8080\\\\\" {  \\\\\$HTTP[\\\\\"url\\\\\"] !~ \\\\\"captiveportal.php\\\\\" {  \\\\\$HTTP[\\\\\"referer\\\\\"] == \\\\\"\\\\\" { url.redirect = ( \\\\\".*\\\\\" => \\\\\"http://192.168.1.1/captiveportal.php\\\\\" ) url.redirect-code = 303 }\" >> \$LIGHTTPD_CONF" ${D}/etc/restart_services.sh
     sed -i "/dibbler-server start/a else" ${D}/etc/restart_services.sh
     sed -i "/dibbler-server start/a fi" ${D}/etc/restart_services.sh
     sed -i "/dibbler-server start/a echo \"}\" >> \$LIGHTTPD_CONF" ${D}/etc/restart_services.sh

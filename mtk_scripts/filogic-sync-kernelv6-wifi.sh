@@ -46,9 +46,9 @@ rm -rf meta-filogic/recipes-wifi/linux-mt76/files/kernelv6-src/*
 cp -rf openwrt/package/kernel/mt76/src/* meta-filogic/recipes-wifi/linux-mt76/files/kernelv6-src/
 
 echo "gen new hostapd patches for kernel 6.6/6.12 version"
-cp meta-cmf-filogic/mtk_scripts/rdkb_inc_helper openwrt/package/network/services/hostapd
+cp meta-cmf-filogic/mtk_scripts/rdkb_wpad_inc_helper openwrt/package/network/services/hostapd
 cd openwrt/package/network/services/hostapd
-./rdkb_inc_helper patches
+./rdkb_wpad_inc_helper patches
 mv patches.inc patches
 echo "Update hostapd bb file version.........."
 

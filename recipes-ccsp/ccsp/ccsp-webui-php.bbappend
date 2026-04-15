@@ -31,7 +31,7 @@ do_install:append () {
         sed -i -e "s/&& (\$Mesh_Mode==\"false\")//g" ${D}/usr/www/actionHandler/ajaxSet_wireless_network_configuration_edit.php
 	sed -i "/setting ConfigureWiFi to true/a echo \"}\" >> \$LIGHTTPD_CONF" ${D}${sysconfdir}/webgui.sh
 	sed -i "/setting ConfigureWiFi to true/a echo \"}\" >> \$LIGHTTPD_CONF" ${D}${sysconfdir}/webgui.sh
-	sed -i "/setting ConfigureWiFi to true/a echo \"\\\\\$HTTP[\\\\\"host\\\\\"] !~ \\\\\":8080\\\\\" {  \\\\\$HTTP[\\\\\"url\\\\\"] !~ \\\\\"captiveportal.php\\\\\" {  \\\\\$HTTP[\\\\\"referer\\\\\"] == \\\\\"\\\\\" { url.redirect = ( \\\\\".*\\\\\" => \\\\\"http://10.0.0.1/captiveportal.php\\\\\" ) url.redirect-code = 303 }\" >> \$LIGHTTPD_CONF"  ${D}${sysconfdir}/webgui.sh
+	sed -i "/setting ConfigureWiFi to true/a echo \"\\\\\$HTTP[\\\\\"host\\\\\"] !~ \\\\\":8080\\\\\" {  \\\\\$HTTP[\\\\\"url\\\\\"] !~ \\\\\"captiveportal.php\\\\\" {  \\\\\$HTTP[\\\\\"referer\\\\\"] == \\\\\"\\\\\" { url.redirect = ( \\\\\".*\\\\\" => \\\\\"http://192.168.1.1/captiveportal.php\\\\\" ) url.redirect-code = 303 }\" >> \$LIGHTTPD_CONF"  ${D}${sysconfdir}/webgui.sh
 	sed -i "/setting ConfigureWiFi to true/a                          sed -i \'\/server.modules              = \(\/a \"mod_rewrite\",' \$LIGHTTPD_CONF" ${D}${sysconfdir}/webgui.sh
 	sed -i "/setting ConfigureWiFi to true/a sed -i \'\/server.modules              = \(\/a \"mod_redirect\",' \$LIGHTTPD_CONF" ${D}${sysconfdir}/webgui.sh
         sed -i "s/if((!strcmp(\$url, \$Wan_IPv4) || ((inet_pton(\$url)!=\"\") || (inet_pton(\$Wan_IPv6!==\"\"))) &&(inet_pton(\$url) == inet_pton(\$Wan_IPv6)))){/if(!strcmp(\$url, \$Wan_IPv4) || (inet_pton(\$url) == inet_pton(\$Wan_IPv6))){/g" ${D}/usr/www/index.php
