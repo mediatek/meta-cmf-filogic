@@ -1,4 +1,9 @@
 #!/bin/sh
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2023 MediaTek Inc.
+#
+
 # prepare hostapd patch
 hostapd=0
 wpa_supplicant=0
