@@ -51,6 +51,8 @@ IMAGE_INSTALL += " \
     ${@bb.utils.contains('DISTRO_FEATURES','flow_offload','flowtable','',d)} \
     ${@bb.utils.contains('DISTRO_FEATURES','samba','ksmbd ksmbd-tools','',d)} \
     ${@bb.utils.contains('DISTRO_FEATURES','OneWifi','ccsp-tr069-pa bpi-serialnumber bpi-macaddress','',d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES','optee','optee-apps optee-os-tadevkit optee-os optee-client','',d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES','optee-test','optee-test','',d)} \
     "
 #IMAGE_INSTALL += " opensync openvswitch mesh-agent e2fsprogs "
 
