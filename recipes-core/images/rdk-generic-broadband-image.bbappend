@@ -89,7 +89,11 @@ do_filogic_gen_image(){
 	if ${@bb.utils.contains('DISTRO_FEATURES','kernel_in_ubi','true','false',d)}; then
         # create sysupgrade image align to openwrt
          if ${@bb.utils.contains('DISTRO_FEATURES','kernelv6','true','false',d)}; then
-                mv ${DEPLOY_DIR_IMAGE}/fitImage-filogic ${DEPLOY_DIR_IMAGE}/${PN}-${MACHINE}-sysupgrade.itb
+                if ${@bb.utils.contains('DISTRO_FEATURES','secure_boot','true','false',d)}; then
+                    mv ${DEPLOY_DIR_IMAGE}/fitImage-filogic-sb ${DEPLOY_DIR_IMAGE}/${PN}-${MACHINE}-sb-sysupgrade.itb
+                else
+                    mv ${DEPLOY_DIR_IMAGE}/fitImage-filogic ${DEPLOY_DIR_IMAGE}/${PN}-${MACHINE}-sysupgrade.itb
+                fi
          else
                 rm -rf ${IMGDEPLOYDIR}/sysupgrade-${PN}-${MACHINE}
                 rm -rf ${IMGDEPLOYDIR}/${PN}-${MACHINE}-sysupgrade.bin
