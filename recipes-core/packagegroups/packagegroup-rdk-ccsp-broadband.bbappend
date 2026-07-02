@@ -20,6 +20,7 @@ RDEPENDS:packagegroup-rdk-ccsp-broadband:remove = "memstress"
 RDEPENDS:packagegroup-rdk-ccsp-broadband:remove = "mesh-agent"
 
 RDEPENDS:packagegroup-rdk-ccsp-broadband:remove = "xupnp"
+RDEPENDS:packagegroup-rdk-ccsp-broadband:remove = "cpuprocanalyzer"
 
 #removing wanmanager components for now following runtime issues
 RDEPENDS:packagegroup-rdk-ccsp-broadband:remove = "rdktelcovoicemanager"
