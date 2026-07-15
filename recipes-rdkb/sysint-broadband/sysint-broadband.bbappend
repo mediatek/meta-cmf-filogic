@@ -44,18 +44,10 @@ do_install:append() {
     install -m 0755 ${S}/devicerpi/lib/rdk/commonUtils.sh ${D}${base_libdir}/rdk
     install -m 0755 ${S}/devicerpi/lib/rdk/logfiles.sh ${D}${base_libdir}/rdk
     install -m 0755 ${S}/devicerpi/lib/rdk/backupLogs.sh ${D}${base_libdir}/rdk
-    install -m 0755 ${S}/devicerpi/lib/rdk/bank_image_switch.sh ${D}${base_libdir}/rdk
-    install -m 0755 ${S}/devicerpi/lib/rdk/deviceInitiatedFWDnld.sh ${D}${base_libdir}/rdk
-    install -m 0755 ${S}/devicerpi/lib/rdk/imageFlasher.sh ${D}${base_libdir}/rdk
-    install -m 0755 ${S}/devicerpi/lib/rdk/rpi_sw_install.sh ${D}${base_libdir}/rdk
-    install -m 0755 ${S}/devicerpi/lib/rdk/rpi_sw_install1.sh ${D}${base_libdir}/rdk
     install -m 0755 ${S}/devicerpi/lib/rdk/snmpUtils.sh ${D}${base_libdir}/rdk
-    install -m 0755 ${S}/devicerpi/lib/rdk/rpi_image_Flasher.sh ${D}${base_libdir}/rdk
-    install -m 0755 ${S}/devicerpi/lib/rdk/swupdate_utility.sh ${D}${base_libdir}/rdk
     install -m 0755 ${S}/devicerpi/lib/rdk/dcaSplunkUpload.sh ${D}${base_libdir}/rdk
     install -m 0755 ${S}/devicerpi/lib/rdk/dca_utility.sh ${D}${base_libdir}/rdk
     install -m 0755 ${S}/devicerpi/systemd_units/previous-log-backup.service ${D}${systemd_unitdir}/system
-    install -m 0755 ${S}/devicerpi/systemd_units/swupdate.service ${D}${systemd_unitdir}/system
     install -m 0644 ${S}/devicerpi/systemd_units/hostapd_backup_check.service ${D}${systemd_unitdir}/system
     rm ${D}${systemd_unitdir}/system/dcm-log.service
 
@@ -113,7 +105,7 @@ do_install:append_bootbroadband() {
     install -m 0755 ${S}/devicerpi/systemd_units/monitor-upload.service ${D}${systemd_unitdir}/system
 }
 
-SYSTEMD_SERVICE:${PN}:append = " dropbear.service disable_systemd_restart_param.service ntpd.service swupdate.service "
+SYSTEMD_SERVICE:${PN}:append = " dropbear.service disable_systemd_restart_param.service ntpd.service "
 SYSTEMD_SERVICE:${PN}:remove_broadband = "dropbear.service"
 SYSTEMD_SERVICE:${PN}:append_bootbroadband += " boot-time-upload.service monitor-upload.service"
 
