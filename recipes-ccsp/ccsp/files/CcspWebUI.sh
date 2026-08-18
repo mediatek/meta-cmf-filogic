@@ -26,6 +26,5 @@ LIGHTTPD_PROCESS=`ps aux | grep lighttpd | grep -v grep | wc -l`
 if [ $LIGHTTPD_PROCESS = 0 ]; then
         /bin/sh /etc/webgui.sh
 else
-        echo "Lighttpd process was already running"
         exit 0
 fi
