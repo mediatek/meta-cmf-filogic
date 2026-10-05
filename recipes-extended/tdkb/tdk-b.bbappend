@@ -24,13 +24,13 @@ SRC_URI += " \
 do_mtk_patches() {
     cd ${S}
     if [ ! -e mtk_wifi_patch_applied ]; then
-		patch -p1 < ${WORKDIR}/0001-Fix-GetApAssociatedDeviceRxStatsResult-and-GetApAsso.patch
-		patch -p1 < ${WORKDIR}/0002-Add-tdk-utility-functions.patch
-		patch -p1 < ${WORKDIR}/0003-Add-Set-property-script.patch
+		patch -p1 < ${UNPACKDIR}/0001-Fix-GetApAssociatedDeviceRxStatsResult-and-GetApAsso.patch
+		patch -p1 < ${UNPACKDIR}/0002-Add-tdk-utility-functions.patch
+		patch -p1 < ${UNPACKDIR}/0003-Add-Set-property-script.patch
 		if ${@bb.utils.contains( 'DISTRO_FEATURES', 'logan', 'false', 'true', d)}; then
-			patch -p1 < ${WORKDIR}/0004-Add-start-sequence-after-uci.patch
+			patch -p1 < ${UNPACKDIR}/0004-Add-start-sequence-after-uci.patch
 		fi
-		patch -p1 < ${WORKDIR}/0005-Fix-wifi_getApAssociatedDeviceTidStatsResult-print-a.patch
+		patch -p1 < ${UNPACKDIR}/0005-Fix-wifi_getApAssociatedDeviceTidStatsResult-print-a.patch
     fi
     touch mtk_wifi_patch_applied
 }

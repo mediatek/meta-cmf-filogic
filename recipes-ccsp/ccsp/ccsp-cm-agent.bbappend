@@ -6,7 +6,7 @@ LDFLAGS:append_dunfell = " -lsafec-3.5.1"
 
 EXTRA_OECONF:remove = " ${@bb.utils.contains('DISTRO_FEATURES', 'rdkb_wan_manager', '--enable-wanmgr', '', d)}"
 
-SRC_URI:append += " \
+SRC_URI:append = " \
     file://Fix-ccsp-cm-agent-build-error.patch;apply=no \
 "
 
@@ -14,7 +14,7 @@ do_filogic_patches() {
     cd ${S}
 
     if ${@bb.utils.contains( 'DISTRO_FEATURES', '2022q3_support', 'true', 'false', d)}; then
-        patch -p1 < ${WORKDIR}/Fix-ccsp-cm-agent-build-error.patch
+        patch -p1 < ${UNPACKDIR}/Fix-ccsp-cm-agent-build-error.patch
         touch filogic_patch_applied
     fi
 }

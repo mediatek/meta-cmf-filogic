@@ -10,6 +10,7 @@ Test Procedure: Connect Ethernet cable to RPi. Check operstate file in image - s
                 Disconnect Ethernet cable to RPi. Check operstate file in image - should show down. sysevent get wan-status should show stopped
 Risks:Low
 
+Upstream-Status: Pending
 Signed-off-by: deeksha.cs <deeksha.cs@ltts.com>
 ---
 

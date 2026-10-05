@@ -1,4 +1,4 @@
-do_install:append_lxcbrc () {
+do_install:append:lxcbrc () {
 
 	sed -i '/user>messagebus/c\<user>dbus</user>'  ${D}/usr/share/dbus-1/system.conf
 	sed -i '/allow user/c\<deny user="*"/>\n<allow user="ccspcr"/>\n<allow user="psm"/>\n<allow user="pandm"/>\n<allow user="ccspwifi"/>\n<allow user="ccsplmlite"/>\n<allow user="root"/>' ${D}/usr/share/dbus-1/system.conf

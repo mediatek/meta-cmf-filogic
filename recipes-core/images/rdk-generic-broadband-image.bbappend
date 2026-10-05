@@ -1,7 +1,7 @@
 inherit rdk-image
 
 IMAGE_FEATURES:remove = "read-only-rootfs"
-IMAGE_FSTYPES:remove= "tar.gz"
+IMAGE_FSTYPES:remove = "tar.gz"
 SYSTEMD_TOOLS = "systemd-analyze systemd-bootchart"
 # systemd-bootchart doesn't currently build with musl libc
 SYSTEMD_TOOLS:remove:libc-musl = "systemd-bootchart"
@@ -30,7 +30,7 @@ IMAGE_INSTALL += " \
     util-linux-readprofile \    
     iputils \ 
     bc \
-    ${@bb.utils.contains('DISTRO_FEATURES','kirkstone','','python-core',d)} \ 
+    ${@bb.utils.contains_any('DISTRO_FEATURES','kirkstone wrynose','','python-core',d)} \ 
     dosfstools \
     pptp-linux \
     rp-pppoe  \  
@@ -53,11 +53,11 @@ IMAGE_INSTALL += " \
     ${@bb.utils.contains('DISTRO_FEATURES','OneWifi','ccsp-tr069-pa bpi-serialnumber bpi-macaddress','',d)} \
     ${@bb.utils.contains('DISTRO_FEATURES','optee','optee-apps optee-os-tadevkit optee-os optee-client','',d)} \
     ${@bb.utils.contains('DISTRO_FEATURES','optee-test','optee-test','',d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES','wrynose','net-tools','',d)} \
     "
 #IMAGE_INSTALL += " opensync openvswitch mesh-agent e2fsprogs "
 
-IMAGE_INSTALL:append += " eth-firmware  mediatek-eth-firmware "
-
+IMAGE_INSTALL:append = " eth-firmware  mediatek-eth-firmware "
 BB_HASH_IGNORE_MISMATCH = "1"
 IMAGE_NAME[vardepsexclude] = "DATETIME"
 
@@ -133,7 +133,11 @@ python do_hash_rootfs (){
     deploy_path = d.getVar('IMGDEPLOYDIR', d, 1)
     PN = d.getVar('PN', d, 1)
     MACHINE = d.getVar('MACHINE', d, 1)
-    SQUASHFS_FILE_PATH="%s/%s-%s.squashfs-xz" %(deploy_path, PN, MACHINE)    
+    IMAGE_LINK_NAME = d.getVar('IMAGE_LINK_NAME', d, 1)
+    if IMAGE_LINK_NAME:
+        SQUASHFS_FILE_PATH="%s/%s.squashfs-xz" %(deploy_path, IMAGE_LINK_NAME)
+    else:
+        SQUASHFS_FILE_PATH="%s/%s-%s.squashfs-xz" %(deploy_path, PN, MACHINE)    
     DEPLOY_DIR_IMAGE = d.getVar('DEPLOY_DIR_IMAGE', d, 1)
     SUMMARY_FILE="%s/hash-summary" %(DEPLOY_DIR_IMAGE)
     FILE_SIZE = os.path.getsize(SQUASHFS_FILE_PATH) 

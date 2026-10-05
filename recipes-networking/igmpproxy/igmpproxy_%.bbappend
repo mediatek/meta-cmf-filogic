@@ -1,6 +1,6 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-SRC_URI:append = "file://igmpproxy.conf \
+SRC_URI:append = " file://igmpproxy.conf \
 				 "
 
 do_install:append () {

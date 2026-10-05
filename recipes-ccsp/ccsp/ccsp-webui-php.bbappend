@@ -36,8 +36,8 @@ do_install:append () {
 	sed -i "/setting ConfigureWiFi to true/a sed -i \'\/server.modules              = \(\/a \"mod_redirect\",' \$LIGHTTPD_CONF" ${D}${sysconfdir}/webgui.sh
         sed -i "s/if((!strcmp(\$url, \$Wan_IPv4) || ((inet_pton(\$url)!=\"\") || (inet_pton(\$Wan_IPv6!==\"\"))) &&(inet_pton(\$url) == inet_pton(\$Wan_IPv6)))){/if(!strcmp(\$url, \$Wan_IPv4) || (inet_pton(\$url) == inet_pton(\$Wan_IPv6))){/g" ${D}/usr/www/index.php
 
-	install -m 755 ${WORKDIR}/CcspWebUI.sh ${D}${base_libdir}/rdk/
-	install -m 644 ${WORKDIR}/CcspWebUI.service ${D}${systemd_unitdir}/system/
+	install -m 755 ${UNPACKDIR}/CcspWebUI.sh ${D}${base_libdir}/rdk/
+	install -m 644 ${UNPACKDIR}/CcspWebUI.service ${D}${systemd_unitdir}/system/
         sed -i "/jProgress/a alert(\'DOCSIS Support is not available in RPI Boards\'); die();" ${D}/usr/www/wan_network.php
         sed -e '/jProgress/ s/^/\/\//' -i ${D}/usr/www/wan_network.php
         sed -i "s/\$clients_RSSI\[strtoupper(\$Host\[\"\$i\"\]\['PhysAddress'\])\]/\$Host\[\$i\]\['X_CISCO_COM_RSSI'\]/g" ${D}/usr/www/connected_devices_computers.php

@@ -26,8 +26,8 @@ do_install:append () {
                 #delete server.pem reference for Filogic
                 sed -e '/server.pem/ s/^#*/echo "Removed server.pem references for Filogic"\n#/' -i ${D}${sysconfdir}/webgui.sh
 
-                install -m 755 ${WORKDIR}/CcspWebUI.sh ${D}${base_libdir}/rdk/
-                install -m 644 ${WORKDIR}/CcspWebUI.service ${D}${systemd_unitdir}/system/
+                install -m 755 ${UNPACKDIR}/CcspWebUI.sh ${D}${base_libdir}/rdk/
+                install -m 644 ${UNPACKDIR}/CcspWebUI.service ${D}${systemd_unitdir}/system/
 
                 sed -i '/Security.X_COMCAST-COM_KeyPassphrase/a \
                 \t\t\tsetStr("Device.DeviceInfo.X_RDKCENTRAL-COM_ConfigureWiFi", "false", true);' ${D}/usr/www2/actionHandler/ajaxSet_wireless_network_configuration_redirection.jst

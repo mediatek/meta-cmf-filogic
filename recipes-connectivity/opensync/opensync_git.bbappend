@@ -4,7 +4,7 @@ OPENSYNC_VENDOR_URI += " ${@bb.utils.contains('DISTRO_FEATURES', 'extender', 'fi
 OPENSYNC_PLATFORM_URI += " ${@bb.utils.contains('DISTRO_FEATURES', 'extender', 'file://platform-rdk.patch;patchdir=${WORKDIR}/git/platform/rdk', '', d)} "
 
 
-do_install:append_extender() {
+do_install:append:extender() {
          install -d ${D}${systemd_unitdir}/system
          install -m 0644 ${WORKDIR}/opensync-4.4.service ${D}${systemd_unitdir}/system/opensync.service
          rm ${D}/etc/ppp/*

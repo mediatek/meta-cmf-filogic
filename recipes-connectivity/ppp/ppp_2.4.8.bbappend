@@ -1,6 +1,6 @@
 DEPENDS:remove = "virtual/crypt"
 DEPENDS:append = " nanomsg"
-DEPENDS:append_broadband = " libxcrypt"
+DEPENDS:append:broadband = " libxcrypt"
 
 SRC_URI:remove = "${@bb.utils.contains('DISTRO_FEATURES', 'rdkb_xdsl_ppp_manager', ' ', 'file://ipc-event.patch', d)}"
 SRC_URI:remove = "${@bb.utils.contains('DISTRO_FEATURES', 'rdkb_xdsl_ppp_manager', ' ', 'file://ppp-remote-local-samelinklocaladdresses-fix.patch', d)}"

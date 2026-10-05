@@ -21,7 +21,7 @@
 
 sleep 10
 
-LIGHTTPD_PROCESS=`ps aux | grep lighttpd | grep -v grep | wc -l`
+LIGHTTPD_PROCESS=`ps | grep lighttpd | grep -v grep | wc -l`
 
 if [ $LIGHTTPD_PROCESS = 0 ]; then
         /bin/sh /etc/webgui.sh

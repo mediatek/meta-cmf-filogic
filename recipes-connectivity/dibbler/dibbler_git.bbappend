@@ -1,0 +1,1 @@
+SRC_URI:remove = "file://Configurable-WanName-NotifyScript-mapT.patch"

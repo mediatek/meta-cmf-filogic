@@ -1,10 +1,19 @@
+SRC_URI:remove:kirkstone = " \
+    ${CMF_GITHUB_ROOT}/sysint-broadband;protocol=https;${BRANCH_sysint-broadband};name=sysintbroadband \
+    ${CMF_GIT_ROOT}/rdkb/devices/intel-x86-pc/emulator/sysint;module=.;protocol=${CMF_GIT_PROTOCOL};branch=${CMF_GIT_BRANCH};destsuffix=git/device;name=sysintdevice \
+"
+
+SRC_URI:kirkstone += " \
+    ${CMF_GITHUB_ROOT}/sysint-broadband;protocol=https;${BRANCH_sysint-broadband};destsuffix=${BP};name=sysintbroadband \
+    ${CMF_GIT_ROOT}/rdkb/devices/intel-x86-pc/emulator/sysint;module=.;protocol=${CMF_GIT_PROTOCOL};branch=${CMF_GIT_BRANCH};destsuffix=${BP}/device;name=sysintdevice \
+"
 SRC_URI:append = " \
-    ${CMF_GIT_ROOT}/rdkb/devices/raspberrypi/sysint;module=.;protocol=${CMF_GIT_PROTOCOL};branch=${CMF_GIT_BRANCH};destsuffix=git/devicerpi;name=sysintdevicerpi \
+    ${CMF_GIT_ROOT}/rdkb/devices/raspberrypi/sysint;module=.;protocol=${CMF_GIT_PROTOCOL};branch=${CMF_GIT_BRANCH};destsuffix=${BP}/devicerpi;name=sysintdevicerpi \
 "
 SRCREV_sysintdevicerpi = "${AUTOREV}"
 SRCREV_FORMAT = "sysintgeneric_sysintdevicerpi"
 
-
+S = "${UNPACKDIR}/${BP}"
 do_install:append() {
     install -d ${D}${systemd_unitdir}/system
     install -m 0755 ${S}/device/lib/rdk/* ${D}${base_libdir}/rdk
@@ -93,10 +102,10 @@ do_install:append() {
     fi
 }
 
-do_install:append_broadband-dev() {
+do_install:append:broadband-dev() {
 install -m 0755 ${S}/devicerpi/lib/rdk/build_component_script.sh ${D}${base_libdir}/rdk
 }
-do_install:append_bootbroadband() {
+do_install:append:bootbroadband() {
     install -m 0755 ${S}/devicerpi/lib/rdk/flash.sh ${D}${base_libdir}/rdk
     install -m 0755 ${S}/devicerpi/lib/rdk/vm-to-image.sh ${D}${base_libdir}/rdk
     install -m 0755 ${S}/devicerpi/lib/rdk/curl-upload.sh ${D}${base_libdir}/rdk
@@ -106,8 +115,8 @@ do_install:append_bootbroadband() {
 }
 
 SYSTEMD_SERVICE:${PN}:append = " dropbear.service disable_systemd_restart_param.service ntpd.service "
-SYSTEMD_SERVICE:${PN}:remove_broadband = "dropbear.service"
-SYSTEMD_SERVICE:${PN}:append_bootbroadband += " boot-time-upload.service monitor-upload.service"
+#SYSTEMD_SERVICE:${PN}:remove_broadband = "${@bb.utils.contains('DISTRO_FEATURES', 'em_extender', ' ','dropbear.service', d)}"
+SYSTEMD_SERVICE:${PN}:append:bootbroadband = " boot-time-upload.service monitor-upload.service"
 
 FILES:${PN}:append = " ${systemd_unitdir}/system/* /fss/gw/rdklogger/* /usr/ccsp/tad/*"
-FILES:${PN}:append_bootbroadband = " ${systemd_unitdir}/system/*"
+FILES:${PN}:append:bootbroadband = " ${systemd_unitdir}/system/*"

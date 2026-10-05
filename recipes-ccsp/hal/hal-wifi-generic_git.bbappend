@@ -1,5 +1,5 @@
 SRC_URI:append = " \
-    ${CMF_GIT_ROOT}/rdkb/devices/raspberrypi/hal;protocol=${CMF_GIT_PROTOCOL};branch=${CMF_GIT_BRANCH};destsuffix=git/source/wifi/devices_rpi;name=wifihal-raspberrypi \
+    ${CMF_GIT_ROOT}/rdkb/devices/raspberrypi/hal;protocol=${CMF_GIT_PROTOCOL};branch=${CMF_GIT_BRANCH};destsuffix=${BP}/source/wifi/devices_rpi;name=wifihal-raspberrypi \
 "
 
 SRCREV_wifihal-raspberrypi = "${AUTOREV}"

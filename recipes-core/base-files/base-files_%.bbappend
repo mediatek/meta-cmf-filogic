@@ -1,4 +1,4 @@
-do_install:append_broadband () {
+do_install:append:broadband () {
 	# deal with hostname
 	if [ "${hostname}" ]; then
 		echo "Filogic-GW" > ${D}${sysconfdir}/hostname

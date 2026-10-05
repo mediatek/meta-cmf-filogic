@@ -73,6 +73,12 @@ BBLAYERS =+ "\${RDKROOT}/meta-rdk-wan"
 EOF
 fi
 
+if [[ -z $(grep 'meta-rdk-broadband-apps' conf/bblayers.conf) ]] && [[ -d  ../meta-rdk-broadband-apps ]]
+then
+    cat >> conf/bblayers.conf <<EOF
+BBLAYERS =+ "\${RDKROOT}/meta-rdk-broadband-apps"
+EOF
+fi
 # Add meta-amx(prplmesh used) only if not already present.
 if [[ $(grep '^BBLAYERS' conf/bblayers.conf | grep -c 'meta-amx') -eq 0 ]] && [[ -d  ../meta-amx ]]
 then
@@ -106,6 +112,7 @@ fi
 
 case "$(sed -n 's/^__version__ = "\(.*\)"/\1/p' ${TOP_DIR}/openembedded-core/bitbake/bin/bitbake)"
 in
+    2.18.*) YOCTO_CODENAME="wrynose" ;;
     2.0.*) YOCTO_CODENAME="kirkstone" ;;
     2.2.*) YOCTO_CODENAME="kirkstone" ;;
     1.46.*) YOCTO_CODENAME="dunfell" ;;
@@ -118,7 +125,7 @@ in
 esac
 
 if [ $(grep -c 'tune-cortexa53' $TOP_DIR/meta-filogic/conf/machine/filogic.conf) -eq 0 ]; then
-    if [ ${YOCTO_CODENAME} == "kirkstone" ]; then
+    if [ ${YOCTO_CODENAME} == "kirkstone" ] || [ ${YOCTO_CODENAME} == "wrynose" ] ; then
         echo "${YOCTO_CODENAME} tune-cortexa53.inc"
         echo "require conf/machine/include/arm/armv8a/tune-cortexa53.inc" >> $TOP_DIR/meta-filogic/conf/machine/filogic.conf
     else
@@ -128,7 +135,7 @@ if [ $(grep -c 'tune-cortexa53' $TOP_DIR/meta-filogic/conf/machine/filogic.conf)
 fi
 
 if [ $(grep -c 'whitelist' $TOP_DIR/meta-cmf-filogic/conf/distro/include/rdk-filogic.inc) -eq 0 ]; then
-    if [ ${YOCTO_CODENAME} == "kirkstone" ]; then
+    if [ ${YOCTO_CODENAME} == "kirkstone" ] || [ ${YOCTO_CODENAME} == "wrynose" ] ; then
         echo "${YOCTO_CODENAME} whitelist.inc"
         echo "require conf/distro/include/whitelist_kirkstone.inc" >> $TOP_DIR/meta-cmf-filogic/conf/distro/include/rdk-filogic.inc
     else
@@ -142,4 +149,8 @@ if [[ ! -e $TOP_DIR/meta-rdk/recipes-common/rdm-agent/rdm_hal_change ]] && [[ $(
 then
 sed -i '/install -d \${D}\${libdir}/,/rdm_rsa_signature_verify\.h.*$/ s/^/# /' $TOP_DIR/meta-rdk/recipes-common/rdm-agent/rdm-agent.bb
 touch $TOP_DIR/meta-rdk/recipes-common/rdm-agent/rdm_hal_change
+fi
+
+if [ ${YOCTO_CODENAME} == "wrynose" ]; then
+	mkdir -p /tmp/python3-bin && ln -sf /usr/bin/python3.10 /tmp/python3-bin/python3 && export PATH=/tmp/python3-bin:$PATH
 fi

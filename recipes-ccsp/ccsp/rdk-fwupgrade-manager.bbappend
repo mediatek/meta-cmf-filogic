@@ -2,5 +2,6 @@ CFLAGS:remove = "${@bb.utils.contains('DISTRO_FEATURES','rdkb_wan_manager','',bb
 EXTRA_OECONF:remove_kirkstone = " --with-ccsp-platform=bcm --with-ccsp-arch=arm "
 
 #for kirkstone safec library changed to safeclib
-CFLAGS:append_kirkstone = " ${@bb.utils.contains('DISTRO_FEATURES', 'safec', ' -fPIC -I${STAGING_INCDIR}/safeclib', '-fPIC', d)}"
+CFLAGS:append:kirkstone = " ${@bb.utils.contains('DISTRO_FEATURES', 'safec', ' -fPIC -I${STAGING_INCDIR}/safeclib', '-fPIC', d)}"
+CFLAGS:append:wrynose = " ${@bb.utils.contains('DISTRO_FEATURES', 'safec', ' -fPIC -I${STAGING_INCDIR}/safeclib', '-fPIC', d)}"
 

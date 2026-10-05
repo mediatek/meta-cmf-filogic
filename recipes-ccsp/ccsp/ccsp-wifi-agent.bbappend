@@ -28,8 +28,8 @@ do_ccspwifiagent_patches() {
     cd ${S}
     if [ ! -e patch_applied ]; then
         bbnote "Patching handle_mesh-rename-opensync.patch"
-        patch  -p1 < ${WORKDIR}/handle_mesh-rename-opensync.patch ${S}/scripts/handle_mesh
-        patch  -p1 < ${WORKDIR}/avoid_gssidcount_error.patch || echo "ERROR or Patch already applied"
+        patch  -p1 < ${UNPACKDIR}/handle_mesh-rename-opensync.patch ${S}/scripts/handle_mesh
+        patch  -p1 < ${UNPACKDIR}/avoid_gssidcount_error.patch || echo "ERROR or Patch already applied"
         touch patch_applied
     fi
 }
@@ -40,10 +40,10 @@ EXTRA_OECONF:append_dunfell  = " --with-ccsp-arch=arm"
 do_install:append(){
     install -m 777 ${D}/usr/bin/CcspWifiSsp -t ${D}/usr/ccsp/wifi/
     install -m 755 ${S}/scripts/cosa_start_wifiagent.sh ${D}/usr/ccsp/wifi
-    install -m 777 ${WORKDIR}/wifiTelemetrySetup.sh ${D}/usr/ccsp/wifi/
-    install -m 777 ${WORKDIR}/checkwifi.sh ${D}/usr/ccsp/wifi/
-    install -m 777 ${WORKDIR}/radio_param_def.cfg ${D}/usr/ccsp/wifi/
-    install -m 777 ${WORKDIR}/synclease.sh ${D}/usr/ccsp/wifi/
+    install -m 777 ${UNPACKDIR}/wifiTelemetrySetup.sh ${D}/usr/ccsp/wifi/
+    install -m 777 ${UNPACKDIR}/checkwifi.sh ${D}/usr/ccsp/wifi/
+    install -m 777 ${UNPACKDIR}/radio_param_def.cfg ${D}/usr/ccsp/wifi/
+    install -m 777 ${UNPACKDIR}/synclease.sh ${D}/usr/ccsp/wifi/
 }
 
 FILES:${PN} += " \

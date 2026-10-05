@@ -1,7 +1,7 @@
 inherit rdk-image
 
 IMAGE_FEATURES:remove = "read-only-rootfs"
-IMAGE_FSTYPES:remove= "tar.gz"
+IMAGE_FSTYPES:remove = "tar.gz"
 SYSTEMD_TOOLS = "systemd-analyze systemd-bootchart"
 # systemd-bootchart doesn't currently build with musl libc
 SYSTEMD_TOOLS:remove:libc-musl = "systemd-bootchart"

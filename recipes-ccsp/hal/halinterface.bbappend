@@ -7,7 +7,7 @@ SRC_URI += "file://sta-network.patch;apply=no"
 do_rpi_patches() {
     cd ${S}
         if [ ! -e patch_applied ]; then
-            patch -p1 < ${WORKDIR}/sta-network.patch
+            patch -p1 < ${UNPACKDIR}/sta-network.patch
             touch patch_applied
         fi
 }

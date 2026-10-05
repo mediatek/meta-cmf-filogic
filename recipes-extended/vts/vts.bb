@@ -37,7 +37,7 @@ do_configure(){
 do_filogic_patches() {
     cd ${S}
     if [ ! -e patch_applied ]; then
-        patch -p1 < ${WORKDIR}/fix_build_and_startup_issue.patch
+        patch -p1 < ${UNPACKDIR}/fix_build_and_startup_issue.patch
         touch patch_applied
     fi
 }
@@ -51,6 +51,6 @@ do_compile (){
 do_install(){
     install -d ${D}/usr/sbin ${D}${sysconfdir}
     install -m 0755 ${S}/bin/hal_test ${D}/usr/sbin 
-    install -m 0644 ${WORKDIR}/radio_config ${D}${sysconfdir}/
-    install -m 0644 ${WORKDIR}/vap_config ${D}${sysconfdir}/
+    install -m 0644 ${UNPACKDIR}/radio_config ${D}${sysconfdir}/
+    install -m 0644 ${UNPACKDIR}/vap_config ${D}${sysconfdir}/
 }

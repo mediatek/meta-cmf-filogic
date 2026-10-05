@@ -11,7 +11,7 @@ SRC_URI:append_client = " \
         file://wpa_supplicant.service \
         file://configure_wpa_supplicant.sh \
 "
-SRC_URI:append_extender = " file://wpa_supplicant-global.service"
+SRC_URI:append:extender = " file://wpa_supplicant-global.service"
 
 EXTRA_OEMAKE = "CONFIG_BUILD_WPA_CLIENT_SO=y"
 FILES_SOLIBSDEV = ""
@@ -25,20 +25,20 @@ do_install:append () {
 }
 
 do_install:append_camera() {
-        install -D -m 0644 ${WORKDIR}/wpa_supplicant.service ${D}/lib/systemd/system/wpa_supplicant.service
-        install -D -m 0644 ${WORKDIR}/wpa_supplicant.conf ${D}/etc/wpa_supplicant.conf
+        install -D -m 0644 ${UNPACKDIR}/wpa_supplicant.service ${D}${libdir}/systemd/system/wpa_supplicant.service
+        install -D -m 0644 ${UNPACKDIR}/wpa_supplicant.conf ${D}/etc/wpa_supplicant.conf
 }
 do_install:append_hybrid() {
-        install -D -m 0644 ${WORKDIR}/wpa_supplicant.service ${D}/lib/systemd/system/wpa_supplicant.service
-        install -D -m 0755 ${WORKDIR}/configure_wpa_supplicant.sh ${D}/lib/rdk/
+        install -D -m 0644 ${UNPACKDIR}/wpa_supplicant.service ${D}${libdir}/systemd/system/wpa_supplicant.service
+        install -D -m 0755 ${UNPACKDIR}/configure_wpa_supplicant.sh ${D}${libdir}/rdk/
 }
 do_install:append_client() {
-        install -D -m 0644 ${WORKDIR}/wpa_supplicant.service ${D}/lib/systemd/system/wpa_supplicant.service
-        install -D -m 0755 ${WORKDIR}/configure_wpa_supplicant.sh ${D}/lib/rdk/
+        install -D -m 0644 ${UNPACKDIR}/wpa_supplicant.service ${D}${libdir}/systemd/system/wpa_supplicant.service
+        install -D -m 0755 ${UNPACKDIR}/configure_wpa_supplicant.sh ${D}${libdir}/rdk/
 }
 
-do_install:append_extender () {
-        install -m 0755 ${WORKDIR}/wpa_supplicant-global.service ${D}${systemd_unitdir}/system/
+do_install:append:extender () {
+        install -m 0755 ${UNPACKDIR}/wpa_supplicant-global.service ${D}${systemd_unitdir}/system/
 }
 
 FILES:${PN} += "${libdir}/libwpa_client.so"

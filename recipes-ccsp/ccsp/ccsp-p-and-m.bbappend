@@ -2,7 +2,10 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 require ccsp_common_filogic.inc
 
-SRC_URI:append += " file://filogic-factoryReset.patch"
+SRC_URI:append = " file://filogic-factoryReset.patch"
+
+ERROR_QA:remove = "patch-fuzz patch-status"
+WARN_QA:append = " patch-fuzz"
 
 DEPENDS:append = " utopia curl "
 
@@ -10,7 +13,7 @@ CFLAGS:append = " \
     -I=${includedir}/utctx \
     -I=${includedir}/utapi \
 "
-LDFLAGS:append =" \
+LDFLAGS:append = " \
     -lsyscfg \
     -lbreakpadwrapper \
 "

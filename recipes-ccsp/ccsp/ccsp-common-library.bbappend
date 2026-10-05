@@ -1,9 +1,9 @@
 require ccsp_common_filogic.inc
 
-FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:${THISDIR}/files:"
 
-DEPENDS:append_filogic = " breakpad"
-CXXFLAGS:append_filogic = " \
+DEPENDS:append:filogic = " breakpad"
+CXXFLAGS:append:filogic = " \
                                 -I${STAGING_INCDIR}/breakpad \
                                 -std=c++11 \
                               "
@@ -19,10 +19,11 @@ SRC_URI:append = " \
     file://utopia.service \
 "
 
+CFLAGS:aarch64:append:wrynose = " -Werror=format-truncation=1 "
 SRC_URI:remove:dunfell = "file://0001-DBusLoop-SSL_state-TLS_ST_OK.patch"
 
-SRC_URI += "file://0003-add-dependency-to-pandm.patch;apply=no"
-SRC_URI += "file://0004-fix-out-of-array-access.patch;apply=no"
+SRC_URI:append = " file://0003-add-dependency-to-pandm.patch;apply=no"
+SRC_URI:append = " file://0004-fix-out-of-array-access.patch;apply=no"
 
 SRC_URI:append:dunfell = " file://0001-DBusLoop-SSL_state-TLS_ST_OK.patch;apply=no"
 
@@ -31,11 +32,11 @@ do_filogic_patches() {
     cd ${S}
     if [ ! -e patch_applied ]; then
         bbnote "Patching 0003-add-dependency-to-pandm.patch"
-        patch -p1 < ${WORKDIR}/0003-add-dependency-to-pandm.patch
-        patch -p1 < ${WORKDIR}/0004-fix-out-of-array-access.patch
+        patch -p1 < ${UNPACKDIR}/0003-add-dependency-to-pandm.patch
+        patch -p1 < ${UNPACKDIR}/0004-fix-out-of-array-access.patch
         if [ "${@bb.utils.contains('DISTRO_CODENAME', 'dunfell', 'dunfell', '', d)}" = "dunfell" ] ; then
             bbnote "Patching 0001-DBusLoop-SSL_state-TLS_ST_OK.patch"
-            patch -p1 < ${WORKDIR}/0001-DBusLoop-SSL_state-TLS_ST_OK.patch
+            patch -p1 < ${UNPACKDIR}/0001-DBusLoop-SSL_state-TLS_ST_OK.patch
 
         fi
        touch patch_applied
@@ -79,14 +80,14 @@ do_install:append:class-target(){
     #rfc service file
     install -D -m 0644 ${S}/systemd_units/rfc.service ${D}${systemd_unitdir}/system/rfc.service
 
-    install -D -m 0644 ${WORKDIR}/wifiinitialized.service ${D}${systemd_unitdir}/system/wifiinitialized.service
-    install -D -m 0644 ${WORKDIR}/checkfilogicwifisupport.service ${D}${systemd_unitdir}/system/checkfilogicwifisupport.service
+    install -D -m 0644 ${UNPACKDIR}/wifiinitialized.service ${D}${systemd_unitdir}/system/wifiinitialized.service
+    install -D -m 0644 ${UNPACKDIR}/checkfilogicwifisupport.service ${D}${systemd_unitdir}/system/checkfilogicwifisupport.service
 
-    install -D -m 0644 ${WORKDIR}/wifiinitialized.path ${D}${systemd_unitdir}/system/wifiinitialized.path
-    install -D -m 0644 ${WORKDIR}/filogicwifiinitialized.path ${D}${systemd_unitdir}/system/filogicwifiinitialized.path
-    install -D -m 0644 ${WORKDIR}/checkfilogicwifisupport.path ${D}${systemd_unitdir}/system/checkfilogicwifisupport.path
+    install -D -m 0644 ${UNPACKDIR}/wifiinitialized.path ${D}${systemd_unitdir}/system/wifiinitialized.path
+    install -D -m 0644 ${UNPACKDIR}/filogicwifiinitialized.path ${D}${systemd_unitdir}/system/filogicwifiinitialized.path
+    install -D -m 0644 ${UNPACKDIR}/checkfilogicwifisupport.path ${D}${systemd_unitdir}/system/checkfilogicwifisupport.path
 
-    install -D -m 0644 ${WORKDIR}/wifi-initialized.target ${D}${systemd_unitdir}/system/wifi-initialized.target
+    install -D -m 0644 ${UNPACKDIR}/wifi-initialized.target ${D}${systemd_unitdir}/system/wifi-initialized.target
 
     install -D -m 0644 ${S}/systemd_units/ProcessResetDetect.service ${D}${systemd_unitdir}/system/ProcessResetDetect.service
     install -D -m 0644 ${S}/systemd_units/ProcessResetDetect.path ${D}${systemd_unitdir}/system/ProcessResetDetect.path
@@ -96,7 +97,7 @@ do_install:append:class-target(){
     #install -m 644 ${S}/source/breakpad_wrapper/include/breakpad_wrapper.h ${D}${includedir}/ccsp
 
     # Install "vendor information"
-    install -m 0644 ${WORKDIR}/ccsp_vendor.h ${D}${includedir}/ccsp
+    install -m 0644 ${UNPACKDIR}/ccsp_vendor.h ${D}${includedir}/ccsp
 
     sed -i -- 's/NotifyAccess=.*/#NotifyAccess=main/g' ${D}${systemd_unitdir}/system/CcspCrSsp.service
     sed -i -- 's/notify.*/forking/g' ${D}${systemd_unitdir}/system/CcspCrSsp.service
@@ -123,7 +124,7 @@ do_install:append:class-target(){
      sed -i "/WorkingDirectory/a ExecStartPre=/bin/sh /lib/rdk/run_rm_key.sh" ${D}${systemd_unitdir}/system/RdkWanManager.service
      sed -i "s/After=CcspCrSsp.service/After=CcspCrSsp.service utopia.service PsmSsp.service CcspEthAgent.service/g" ${D}${systemd_unitdir}/system/RdkWanManager.service
      sed -i "s/CcspPandMSsp.service/CcspCrSsp.service CcspPandMSsp.service/g" ${D}${systemd_unitdir}/system/CcspEthAgent.service
-     install -D -m 0644 ${WORKDIR}/utopia.service ${D}${systemd_unitdir}/system/utopia.service
+     install -D -m 0644 ${UNPACKDIR}/utopia.service ${D}${systemd_unitdir}/system/utopia.service
      install -D -m 0644 ${S}/systemd_units/RdkTelcoVoiceManager.service ${D}${systemd_unitdir}/system/RdkTelcoVoiceManager.service
      install -D -m 0644 ${S}/systemd_units/RdkVlanManager.service ${D}${systemd_unitdir}/system/RdkVlanManager.service
     fi
