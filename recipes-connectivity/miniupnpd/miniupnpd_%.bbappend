@@ -1,6 +1,7 @@
 FILESEXTRAPATHS:append := "${THISDIR}/files:"
 
-SRC_URI:append = "file://miniupnpd-filogic.conf \
+SRC_URI:append = " \
+    file://miniupnpd-filogic.conf \
         "
 
 do_install:append() {

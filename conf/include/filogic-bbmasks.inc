@@ -3,6 +3,7 @@ BBMASK .= "|meta-cmf/recipes-common/rdkversion/"
 BBMASK .= "|meta-cmf/recipes-support/libdacjwt/"
 BBMASK .= "|meta-cmf/recipes-support/libkwk-rdk/"
 BBMASK .= "|meta-cmf/recipes-support/libmntfsimg/"
+BBMASK .= "|meta-cmf/recipes-common/webconfig-framework/"
 BBMASK .= "|meta-rdk/recipes-core/packagegroups/packagegroup-rdk-media-common.bb"
 BBMASK .= "|meta-rdk/recipes-support/base64/base64_git.bb"
 
