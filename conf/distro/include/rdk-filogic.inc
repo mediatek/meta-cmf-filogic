@@ -47,4 +47,5 @@ DISTRO_FEATURES:append = " rrd"
 # Wrynose/kirkstone compatibility: UNPACKDIR was introduced in wrynose
 UNPACKDIR ??= "${WORKDIR}"
 DISTRO_FEATURES:remove:wrynose = " ptest "
+PREFERRED_VERSION_bluez5:kirkstone = "${@bb.utils.contains('DISTRO_FEATURES', 'em_extender', '5.66', '5.82',d)}"
 

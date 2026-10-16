@@ -115,7 +115,6 @@ do_install:append:bootbroadband() {
 }
 
 SYSTEMD_SERVICE:${PN}:append = " dropbear.service disable_systemd_restart_param.service ntpd.service "
-#SYSTEMD_SERVICE:${PN}:remove_broadband = "${@bb.utils.contains('DISTRO_FEATURES', 'em_extender', ' ','dropbear.service', d)}"
 SYSTEMD_SERVICE:${PN}:append:bootbroadband = " boot-time-upload.service monitor-upload.service"
 
 FILES:${PN}:append = " ${systemd_unitdir}/system/* /fss/gw/rdklogger/* /usr/ccsp/tad/*"

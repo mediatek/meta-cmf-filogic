@@ -56,3 +56,6 @@ BBMASK .= "${@bb.utils.contains('DISTRO_FEATURES', 'wrynose', '|meta-cmf-filogic
 BBMASK .= "${@bb.utils.contains('DISTRO_FEATURES', 'wrynose', '|meta-filogic-onewifi/recipes-extended/iptables/iptables_1.8.7.bbappend', '', d)}"
 BBMASK .= "${@bb.utils.contains('DISTRO_FEATURES', 'wrynose', '|meta-filogic-onewifi/recipes-connectivity/wpa-supplicant/wpa-supplicant_%.bbappend', '', d)}"
 BBMASK .= "${@bb.utils.contains('DISTRO_FEATURES', 'wrynose', '|meta-filogic-onewifi/recipes-support/webcfg/webcfg_1.0.bbappend', '', d)}"
+BBMASK .= "${@bb.utils.contains_any('DISTRO_FEATURES', 'em_extender wrynose', '', '|meta-rdk-ext/recipes-connectivity/bluez',d)}"
+BBMASK .= "${@bb.utils.contains_any('DISTRO_FEATURES', 'em_extender wrynose', '', '|meta-rdk-ext/recipes-connectivity/bluez5',d)}"
+BBMASK .= "${@bb.utils.contains_any('DISTRO_FEATURES', 'em_extender wrynose', '', '|openembedded-core/meta/recipes-connectivity/bluez5',d)}"
