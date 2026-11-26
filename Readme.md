@@ -9,6 +9,36 @@
 
 ## Latest Release Version
 
+#### Filogic 8800 WiFi8 Kernel6.12 Alpha Release (20261127)
+
+##### External Release
+
+```
+#Get  latest RDKB core release  : https://wiki.rdkcentral.com/display/CMF/RDK-B+Code+Releases
+
+kirkstone : repo init -u https://code.rdkcentral.com/r/rdkcmf/manifests -b rdkb-2026q3-kirkstone -m rdkb-bpi-nosrc.xml
+wrynose : repo init -u https://code.rdkcentral.com/r/rdkcmf/manifests  -b rdkb-2026q3-wrynose-beta -m rdkb-bpi-extsrc.xml
+
+repo sync -j `nproc` --no-clone-bundle --no-tags
+
+#Get filogic BSP meta layer
+cd meta-filogic; git checkout db5e00722b6789a29a5626ed3bf94be1b2846c51; cd -;
+
+#Get filogic Adapter cmf layer
+cd meta-cmf-filogic; git checkout acd45bc84295e0bacef6b95c90c47116f274c85e; cd -;
+
+#Choose one platform to build
+#Filogic8800
+MACHINE=filogic8800-kerenl6-12 source meta-cmf-filogic/setup-environment && bitbake rdk-generic-broadband-image
+
+#Bpi-r4 with WiFi8
+MACHINE=filogic8800-kernel6-12-bpi-r4 source meta-cmf-filogic/setup-environment && bitbake rdk-generic-broadband-image
+```
+
+##### WiFi Package Version
+
+refer to https://github.com/mediatek/mtk-openwrt-feeds/blob/main/autobuild/unified/Readme-6.12.md#wi-fi-8-latest-release-version
+
 #### Filogic 880/850 WiFi7 Kernel6.12 MLO MP4.3 Release (20260327)
 
 ##### External Release
